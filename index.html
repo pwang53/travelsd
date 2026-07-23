@@ -1,0 +1,2454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Diego & Disneyland • 行程与酒店 Credit 规划</title>
+<style>
+    :root {
+        --bg-body: #f5f5f7;
+        --text-primary: #1d1d1f;
+        --text-secondary: #86868b;
+        --glass-bg: rgba(255, 255, 255, 0.72);
+        --glass-border: rgba(255, 255, 255, 0.6);
+        --glass-shadow: 0 10px 40px -8px rgba(0, 0, 0, 0.08);
+        --radius-large: 24px;
+        --radius-small: 14px;
+
+        /* 五日主题色 · Apple System Palette */
+        --d1: #0A84FF;   /* Day 1 · 蓝 · 落地 */
+        --d2: #00B4B0;   /* Day 2 · 湖蓝 · 航母与小意大利 */
+        --d3: #FF375F;   /* Day 3 · 品红 · 迪士尼 */
+        --d4: #FF9F0A;   /* Day 4 · 橙 · 乐高与海滩 */
+        --d5: #AF52DE;   /* Day 5 · 紫 · 灯塔动物园返程 */
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+
+    html {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+        width: 100%;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+        background:
+            radial-gradient(1200px 500px at 15% -10%, rgba(10,132,255,0.08), transparent 60%),
+            radial-gradient(1000px 500px at 90% 10%, rgba(175,82,222,0.07), transparent 60%),
+            var(--bg-body);
+        color: var(--text-primary);
+        line-height: 1.5;
+        padding-bottom: 80px;
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100vw;
+    }
+
+    /* 视图切换机制 */
+    .view-page { display: none; }
+    .view-page.active { display: block; animation: pageFade 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes pageFade {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---------- Header ---------- */
+    header {
+        background: rgba(255, 255, 255, 0.78);
+        backdrop-filter: saturate(180%) blur(24px);
+        -webkit-backdrop-filter: saturate(180%) blur(24px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+        padding: 16px 0 0 0;
+        text-align: center;
+    }
+
+    .header-content {
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 0 20px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .header-title-group { text-align: left; }
+
+    header h1 {
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        background: linear-gradient(180deg, #1d1d1f 0%, #48484a 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+        font-size: 12px;
+        color: var(--text-secondary);
+        margin-top: 2px;
+        font-weight: 500;
+    }
+
+    .nav-btn-group { display: flex; gap: 8px; }
+
+    .header-nav-btn {
+        background: rgba(10, 132, 255, 0.1);
+        border: 1px solid rgba(10, 132, 255, 0.25);
+        color: var(--d1);
+        font-size: 12.5px;
+        font-weight: 700;
+        padding: 7px 14px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .header-nav-btn:hover {
+        background: var(--d1);
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(10, 132, 255, 0.3);
+    }
+
+    .header-spectrum {
+        height: 4px;
+        width: 100%;
+        margin-top: 10px;
+        background: linear-gradient(90deg, var(--d1), var(--d2), var(--d3), var(--d4), var(--d5));
+        opacity: 0.9;
+    }
+
+    /* ---------- Mobile Bottom Tab Bar ---------- */
+    .mobile-tabbar {
+        display: none;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 200;
+        background: rgba(255, 255, 255, 0.86);
+        backdrop-filter: saturate(180%) blur(24px);
+        -webkit-backdrop-filter: saturate(180%) blur(24px);
+        border-top: 1px solid rgba(0,0,0,0.08);
+        padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px));
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+    }
+    .mobile-tabbar-inner {
+        display: flex;
+        justify-content: space-around;
+        align-items: stretch;
+        max-width: 920px;
+        margin: 0 auto;
+    }
+    .tabbar-btn {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        background: none;
+        border: none;
+        padding: 6px 4px 4px;
+        color: var(--text-secondary);
+        font-family: inherit;
+        cursor: pointer;
+        border-radius: 12px;
+        transition: color 0.2s ease, background 0.2s ease;
+    }
+    .tabbar-btn .tabbar-icon { font-size: 20px; line-height: 1; }
+    .tabbar-btn .tabbar-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.01em; }
+    .tabbar-btn.active { color: var(--d1); background: rgba(10,132,255,0.08); }
+
+    @media (max-width: 768px) {
+        .mobile-tabbar { display: block; }
+        body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+
+        .nav-btn-group { display: none; }
+        .header-content { justify-content: center; text-align: center; }
+        .header-title-group { text-align: center; }
+    }
+
+    /* ---------- Container ---------- */
+    .container { max-width: 920px; margin: 24px auto 0 auto; padding: 0 16px; }
+
+    /* ---------- Master timeline ---------- */
+    .master-timeline-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border-radius: var(--radius-large);
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--glass-shadow);
+        padding: 22px 20px 20px;
+        margin-bottom: 28px;
+        overflow-x: auto;
+    }
+
+    .master-timeline-title {
+        font-size: 12.5px;
+        font-weight: 700;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        text-align: center;
+        margin-bottom: 6px;
+    }
+
+    .legend {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; color: var(--text-secondary); }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    .master-track {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        position: relative;
+        min-width: 780px;
+        padding: 0 10px;
+    }
+
+    .master-track::before {
+        content: '';
+        position: absolute;
+        top: 13px;
+        left: 20px;
+        right: 20px;
+        height: 3px;
+        border-radius: 3px;
+        background: linear-gradient(90deg, var(--d1) 0%, var(--d1) 10%, var(--d2) 30%, var(--d3) 50%, var(--d4) 72%, var(--d5) 100%);
+        opacity: 0.35;
+        z-index: 1;
+    }
+
+    .master-step {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+    }
+
+    .step-dot {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 2.5px solid var(--dot);
+        color: var(--dot);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 700;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        margin-bottom: 8px;
+        transition: transform 0.2s ease;
+    }
+
+    .master-step:hover .step-dot { transform: scale(1.12); }
+
+    .master-step.highlight .step-dot {
+        background: var(--dot);
+        color: #ffffff;
+        box-shadow: 0 4px 12px -2px var(--dot);
+    }
+
+    .step-day { font-size: 10px; font-weight: 800; color: var(--dot); margin-bottom: 2px; letter-spacing: 0.02em; }
+    .step-label { font-size: 11px; font-weight: 600; color: var(--text-primary); text-align: center; white-space: nowrap; }
+
+    /* ---------- Day card ---------- */
+    .day-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border-radius: var(--radius-large);
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--glass-shadow);
+        margin-bottom: 26px;
+        overflow: hidden;
+        position: relative;
+        opacity: 0;
+        transform: translateY(14px);
+        animation: rise 0.6s ease forwards;
+    }
+    .day-card:nth-of-type(2) { animation-delay: 0.05s; }
+    .day-card:nth-of-type(3) { animation-delay: 0.1s; }
+    .day-card:nth-of-type(4) { animation-delay: 0.15s; }
+    .day-card:nth-of-type(5) { animation-delay: 0.2s; }
+    .day-card:nth-of-type(6) { animation-delay: 0.25s; }
+
+    @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) {
+        .day-card { animation: none; opacity: 1; transform: none; }
+    }
+
+    .day-header {
+        position: relative;
+        padding: 20px 24px 16px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        background: linear-gradient(120deg, color-mix(in srgb, var(--accent) 14%, white), transparent 70%);
+    }
+
+    .day-header::after {
+        content: attr(data-num);
+        position: absolute;
+        right: 8px;
+        top: -22px;
+        font-size: 90px;
+        font-weight: 800;
+        color: var(--accent);
+        opacity: 0.08;
+        line-height: 1;
+        pointer-events: none;
+    }
+
+    .day-title-wrap { display: flex; align-items: center; gap: 10px; z-index: 1; }
+    .day-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent); flex-shrink: 0; }
+    .day-title { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+
+    .day-badge {
+        background: var(--accent);
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 5px 13px;
+        border-radius: 20px;
+        white-space: nowrap;
+        z-index: 1;
+        box-shadow: 0 3px 10px -2px var(--accent);
+    }
+
+    .day-body { padding: 22px 24px; }
+
+    /* Tip Badge */
+    .info-pill {
+        background: color-mix(in srgb, var(--accent) 10%, white);
+        border: 1px solid color-mix(in srgb, var(--accent) 25%, white);
+        color: color-mix(in srgb, var(--accent) 70%, black);
+        padding: 11px 16px;
+        border-radius: var(--radius-small);
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* Node card */
+    .node-card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 16px 18px 16px 20px;
+        border: 1px solid rgba(0, 0, 0, 0.045);
+        border-left: 4px solid var(--accent);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        position: relative;
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .node-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px -6px color-mix(in srgb, var(--accent) 40%, transparent); }
+
+    .node-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; gap: 10px; }
+    .node-time { font-size: 12px; font-weight: 700; color: var(--accent); white-space: nowrap; }
+    .node-title { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+    .node-address { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
+    .node-desc { font-size: 13px; color: #3a3a3c; line-height: 1.5; }
+
+    .map-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 700;
+        margin-top: 10px;
+        transition: gap 0.15s ease;
+    }
+    .map-btn:hover { gap: 8px; }
+
+    /* Drive segment */
+    .drive-segment { display: flex; align-items: center; justify-content: center; padding: 12px 0; }
+
+    .drive-badge {
+        background: color-mix(in srgb, var(--accent) 8%, rgba(118,118,128,0.12));
+        border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+        color: #48484a;
+        font-size: 11.5px;
+        font-weight: 500;
+        padding: 5px 13px;
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .drive-badge strong { color: var(--text-primary); }
+
+    .timeline { display: flex; flex-direction: column; }
+
+    /* ---------- Flight cards ---------- */
+    .flight-section-title {
+        font-size: 12.5px;
+        font-weight: 700;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        text-align: center;
+        margin-bottom: 18px;
+    }
+
+    .flight-cards-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+
+    .flight-card {
+        background: #ffffff;
+        border-radius: 20px;
+        border: 1px solid rgba(0,0,0,0.06);
+        box-shadow: 0 4px 18px -6px rgba(0,0,0,0.08);
+        overflow: hidden;
+        position: relative;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .flight-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px -8px color-mix(in srgb, var(--flight-accent) 45%, transparent); }
+
+    .flight-card-top {
+        padding: 14px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(120deg, color-mix(in srgb, var(--flight-accent) 88%, black) 0%, var(--flight-accent) 100%);
+        color: #ffffff;
+    }
+
+    .flight-dir-tag {
+        font-size: 10.5px;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        opacity: 0.85;
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    .airline-name { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 14px; }
+
+    .airline-logo-dot {
+        width: 24px;
+        height: 24px;
+        border-radius: 7px;
+        background: #ffffff;
+        color: var(--flight-accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 900;
+        flex-shrink: 0;
+    }
+
+    .flight-number-badge {
+        font-size: 12px;
+        font-weight: 800;
+        background: rgba(255,255,255,0.22);
+        padding: 5px 12px;
+        border-radius: 20px;
+        letter-spacing: 0.02em;
+        white-space: nowrap;
+    }
+
+    .flight-route {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 22px 18px 6px;
+    }
+
+    .flight-point { text-align: center; flex: 0 0 auto; min-width: 66px; }
+    .flight-point .fp-time { font-size: 22px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; line-height: 1.1; }
+    .flight-point .fp-code { font-size: 13.5px; font-weight: 800; color: var(--flight-accent); margin-top: 4px; }
+    .flight-point .fp-city { font-size: 11px; color: var(--text-secondary); margin-top: 1px; }
+
+    .flight-path {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 8px;
+        margin-top: 9px;
+    }
+    .flight-path .fp-duration { font-size: 10.5px; color: var(--text-secondary); font-weight: 700; margin-bottom: 6px; white-space: normal; text-align: center; line-height: 1.3; }
+    .flight-path .fp-line {
+        width: 100%;
+        min-width: 40px;
+        height: 2px;
+        background-image: repeating-linear-gradient(90deg, color-mix(in srgb, var(--flight-accent) 50%, transparent) 0 6px, transparent 6px 11px);
+        position: relative;
+    }
+    .flight-path .fp-plane {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(90deg);
+        font-size: 15px;
+        background: #ffffff;
+    }
+    .flight-path .fp-nonstop { font-size: 9.5px; color: var(--text-secondary); margin-top: 6px; white-space: normal; text-align: center; }
+
+    .flight-footer {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 13px 22px 15px;
+        border-top: 1.5px dashed rgba(0,0,0,0.14);
+        margin-top: 12px;
+        font-size: 11.5px;
+        color: var(--text-secondary);
+        font-weight: 600;
+    }
+    .flight-footer::before,
+    .flight-footer::after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--bg-body);
+        top: 0;
+        transform: translateY(-50%);
+    }
+    .flight-footer::before { left: -8px; }
+    .flight-footer::after { right: -8px; }
+    .flight-footer .ff-tag { color: var(--flight-accent); font-weight: 800; }
+    .flight-footer .ff-price { font-size: 15px; font-weight: 800; color: var(--flight-accent); }
+
+    @media (max-width: 640px) {
+        .flight-cards-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ---------- Hotel reservation cards ---------- */
+    .hotel-cards-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+
+    .hotel-card {
+        background: #ffffff;
+        border-radius: 20px;
+        border: 1px solid rgba(0,0,0,0.06);
+        box-shadow: 0 4px 18px -6px rgba(0,0,0,0.08);
+        overflow: hidden;
+        position: relative;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .hotel-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px -8px color-mix(in srgb, var(--hotel-accent) 45%, transparent); }
+
+    .hotel-card-top {
+        padding: 14px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        background: linear-gradient(120deg, color-mix(in srgb, var(--hotel-accent) 88%, black) 0%, var(--hotel-accent) 100%);
+        color: #ffffff;
+    }
+
+    .hotel-name-wrap { display: flex; align-items: center; gap: 8px; min-width: 0; }
+    .hotel-icon-dot {
+        width: 24px; height: 24px; border-radius: 7px;
+        background: #ffffff; color: var(--hotel-accent);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 13px; flex-shrink: 0;
+    }
+    .hotel-name { font-weight: 800; font-size: 13.5px; line-height: 1.3; }
+    .hotel-status-badge {
+        font-size: 11px; font-weight: 800;
+        background: rgba(255,255,255,0.22);
+        padding: 4px 10px; border-radius: 20px;
+        white-space: nowrap; flex-shrink: 0;
+    }
+
+    .hotel-stay-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 20px 20px 4px;
+        gap: 10px;
+    }
+    .hotel-stay-point { flex: 1; }
+    .hotel-stay-point .hs-label { font-size: 10px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 3px; }
+    .hotel-stay-point .hs-date { font-size: 15px; font-weight: 800; color: var(--text-primary); line-height: 1.25; }
+    .hotel-stay-point .hs-time { font-size: 11.5px; color: var(--hotel-accent); font-weight: 700; margin-top: 2px; }
+
+    .hotel-stay-divider {
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 4px;
+        min-width: 56px;
+    }
+    .hotel-stay-divider .hsd-nights { font-size: 11px; font-weight: 800; color: var(--hotel-accent); white-space: nowrap; }
+    .hotel-stay-divider .hsd-line { width: 100%; height: 2px; margin-top: 6px; background-image: repeating-linear-gradient(90deg, color-mix(in srgb, var(--hotel-accent) 50%, transparent) 0 5px, transparent 5px 9px); }
+
+    .hotel-meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 12px 20px 4px;
+    }
+    .hotel-meta-chip {
+        font-size: 11px;
+        font-weight: 600;
+        color: #48484a;
+        background: color-mix(in srgb, var(--hotel-accent) 8%, rgba(118,118,128,0.1));
+        border: 1px solid color-mix(in srgb, var(--hotel-accent) 18%, transparent);
+        padding: 4px 10px;
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .hotel-credit-btn {
+        margin: 12px 20px;
+        background: color-mix(in srgb, var(--hotel-accent) 12%, white);
+        border: 1.5px solid var(--hotel-accent);
+        color: var(--hotel-accent);
+        font-size: 12.5px;
+        font-weight: 700;
+        padding: 10px 14px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        text-align: center;
+    }
+    .hotel-credit-btn:hover {
+        background: var(--hotel-accent);
+        color: #ffffff;
+        box-shadow: 0 4px 14px -3px var(--hotel-accent);
+    }
+
+    .hotel-room-line {
+        padding: 12px 20px 0;
+        font-size: 12.5px;
+        color: var(--text-secondary);
+    }
+    .hotel-room-line strong { color: var(--text-primary); font-weight: 700; }
+
+    .hotel-footer {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 13px 22px 15px;
+        border-top: 1.5px dashed rgba(0,0,0,0.14);
+        margin-top: 14px;
+        font-size: 11px;
+        color: var(--text-secondary);
+        font-weight: 600;
+    }
+    .hotel-footer::before,
+    .hotel-footer::after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--bg-body);
+        top: 0;
+        transform: translateY(-50%);
+    }
+    .hotel-footer::before { left: -8px; }
+    .hotel-footer::after { right: -8px; }
+    .hotel-footer .hf-code { font-family: "SF Mono", Menlo, monospace; font-weight: 700; color: var(--text-primary); letter-spacing: 0.02em; }
+    .hotel-footer .hf-price { font-size: 15px; font-weight: 800; color: var(--hotel-accent); }
+
+    @media (max-width: 640px) {
+        .hotel-cards-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ---------- POI mini list ---------- */
+    .poi-toggle-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        user-select: none;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px dashed rgba(0,0,0,0.1);
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--accent);
+    }
+    .poi-toggle-header .chevron {
+        width: 7px;
+        height: 7px;
+        border-right: 2px solid var(--accent);
+        border-bottom: 2px solid var(--accent);
+        transform: rotate(45deg);
+        transition: transform 0.3s ease;
+        margin-top: -3px;
+        flex-shrink: 0;
+    }
+    .poi-toggle-header.collapsed .chevron { transform: rotate(-45deg); margin-top: 3px; }
+    .poi-toggle-header:hover { opacity: 0.75; }
+
+    .poi-list {
+        margin-top: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+    .poi-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 10px;
+        font-size: 12px;
+        flex-wrap: wrap;
+        text-decoration: none;
+        color: inherit;
+        padding: 5px 6px;
+        margin: 0 -6px;
+        border-radius: 8px;
+        transition: background 0.15s ease;
+    }
+    .poi-item:hover { background: color-mix(in srgb, var(--accent) 9%, transparent); }
+    .poi-item:hover .poi-addr { color: var(--accent); text-decoration: underline; }
+    .poi-item .poi-name { font-weight: 700; color: var(--text-primary); white-space: nowrap; }
+    .poi-item .poi-addr { color: var(--text-secondary); font-size: 11px; text-align: right; flex: 1; min-width: 140px; }
+
+    /* ---------- Collapsible section ---------- */
+    .section-toggle-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+        user-select: none;
+        margin-bottom: 6px;
+        padding: 4px 0;
+    }
+    .section-toggle-header .chevron {
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid var(--text-secondary);
+        border-bottom: 2px solid var(--text-secondary);
+        transform: rotate(45deg);
+        transition: transform 0.3s ease;
+        margin-top: -3px;
+        flex-shrink: 0;
+    }
+    .section-toggle-header.collapsed .chevron { transform: rotate(-45deg); margin-top: 3px; }
+    .section-toggle-header:hover .flight-section-title,
+    .section-toggle-header:hover .chevron { opacity: 0.65; }
+
+    .collapsible-body {
+        overflow: hidden;
+        transition: max-height 0.36s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
+        opacity: 1;
+    }
+    .collapsible-body.collapsed { opacity: 0; }
+
+    /* ---------- Route map ---------- */
+    .map-card { padding: 24px 20px 26px; }
+    .map-subtitle { text-align: center; font-size: 12px; color: var(--text-secondary); margin-top: -10px; margin-bottom: 18px; }
+    .route-svg-wrap { max-width: 460px; margin: 0 auto 22px; }
+    .route-svg-wrap svg { width: 100%; height: auto; display: block; }
+
+    .map-legend-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+    }
+    .map-hub-card {
+        border-radius: 16px;
+        padding: 14px 14px 12px;
+        background: #ffffff;
+        border: 1px solid rgba(0,0,0,0.05);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+    .map-hub-title { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+    .map-hub-stops { display: flex; flex-direction: column; gap: 5px; }
+    .map-hub-stop { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: #48484a; }
+    .map-stop-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ---------- 全局预算明细与注意事项表格 CSS ---------- */
+    .budget-summary-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 20px 24px;
+        border: 1px solid rgba(0,0,0,0.06);
+        box-shadow: 0 4px 18px -6px rgba(0,0,0,0.06);
+        margin-bottom: 24px;
+    }
+    .table-scroll-wrap {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .budget-table {
+        width: 100%;
+        min-width: 640px;
+        border-collapse: collapse;
+        margin-top: 14px;
+        font-size: 13px;
+    }
+    .budget-table th {
+        background: #f8f8fa;
+        color: var(--text-secondary);
+        font-weight: 700;
+        text-align: left;
+        padding: 10px 12px;
+        border-bottom: 2px solid rgba(0,0,0,0.06);
+        font-size: 12px;
+    }
+    .budget-table td {
+        padding: 12px;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        color: var(--text-primary);
+        vertical-align: top;
+    }
+    .budget-table tr:last-child td { border-bottom: none; }
+    .price-col { font-weight: 800; color: #34c759; text-align: right; white-space: nowrap; }
+    .status-tag {
+        font-size: 10.5px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 12px;
+        display: inline-block;
+    }
+    .tag-paid { background: rgba(52, 199, 89, 0.12); color: #34c759; }
+    .tag-est { background: rgba(255, 149, 0, 0.12); color: #ff9500; }
+    .note-list { margin-top: 4px; padding-left: 16px; color: var(--text-secondary); font-size: 12px; }
+    .note-list li { margin-bottom: 3px; }
+
+    /* ---------- 酒店 Credit 规划视图 ---------- */
+    .credit-header-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border-radius: var(--radius-large);
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--glass-shadow);
+        padding: 22px 24px;
+        margin-bottom: 24px;
+    }
+
+    .credit-top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .hotel-tabs {
+        display: flex;
+        background: rgba(118, 118, 128, 0.12);
+        padding: 4px;
+        border-radius: 14px;
+        gap: 4px;
+    }
+
+    .tab-btn {
+        border: none;
+        background: transparent;
+        padding: 8px 16px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text-secondary);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+        background: #ffffff;
+        color: var(--text-primary);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .credit-grid {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 24px;
+    }
+
+    .menu-section {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 20px;
+        border: 1px solid rgba(0,0,0,0.05);
+        box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+        margin-bottom: 20px;
+    }
+
+    .menu-cat-title {
+        font-size: 16px;
+        font-weight: 800;
+        color: var(--text-primary);
+        padding-bottom: 10px;
+        margin-bottom: 12px;
+        border-bottom: 2px solid var(--text-primary);
+    }
+
+    .menu-official-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--d1);
+        text-decoration: none;
+        background: rgba(10, 132, 255, 0.08);
+        border: 1px solid rgba(10, 132, 255, 0.22);
+        padding: 5px 12px;
+        border-radius: 20px;
+        margin: -4px 0 14px;
+    }
+    .menu-official-link:hover { background: var(--d1); color: #ffffff; }
+
+    .menu-note-box {
+        background: #fff8e6;
+        border: 1px solid #ffe599;
+        color: #8a6d3b;
+        font-size: 13px;
+        line-height: 1.6;
+        padding: 14px 16px;
+        border-radius: 12px;
+    }
+
+    .menu-item-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .menu-item-row:last-child { border-bottom: none; }
+
+    .menu-item-info { padding-right: 12px; }
+    .menu-item-name { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+    .menu-item-desc { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+    .menu-item-price { font-size: 13.5px; font-weight: 800; color: var(--d1); margin-top: 4px; display: inline-block; }
+
+    .add-btn {
+        background: rgba(10, 132, 255, 0.08);
+        border: 1px solid rgba(10, 132, 255, 0.2);
+        color: var(--d1);
+        font-size: 12px;
+        font-weight: 700;
+        padding: 6px 14px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.18s ease;
+        flex-shrink: 0;
+    }
+    .add-btn:hover {
+        background: var(--d1);
+        color: #ffffff;
+    }
+
+    /* 右侧额度计算器 Widget */
+    .calculator-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 20px;
+        border: 1px solid rgba(0,0,0,0.06);
+        box-shadow: 0 6px 24px -6px rgba(0,0,0,0.08);
+        position: sticky;
+        top: 90px;
+    }
+
+    .calc-title {
+        font-size: 16px;
+        font-weight: 800;
+        color: var(--text-primary);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(0,0,0,0.08);
+        margin-bottom: 14px;
+    }
+
+    .clear-btn {
+        font-size: 11px;
+        color: #ff3b30;
+        background: transparent;
+        border: none;
+        font-weight: 700;
+        cursor: pointer;
+    }
+    .clear-btn:hover { text-decoration: underline; }
+
+    .cart-list {
+        max-height: 220px;
+        overflow-y: auto;
+        margin-bottom: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f8f8fa;
+        padding: 8px 12px;
+        border-radius: 10px;
+        font-size: 12.5px;
+    }
+
+    .cart-item-name { font-weight: 600; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 170px; }
+    .cart-item-right { display: flex; align-items: center; gap: 8px; }
+    .cart-item-price { font-weight: 800; color: var(--text-primary); }
+    .del-btn { color: #8e8e93; border: none; background: transparent; font-size: 16px; font-weight: bold; cursor: pointer; }
+    .del-btn:hover { color: #ff3b30; }
+
+    .calc-summary-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12.5px;
+        color: var(--text-secondary);
+        margin-bottom: 6px;
+    }
+
+    .calc-total-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 16px;
+        font-weight: 800;
+        color: var(--text-primary);
+        padding-top: 10px;
+        border-top: 1px solid rgba(0,0,0,0.08);
+        margin-top: 8px;
+    }
+
+    .progress-box { margin-top: 16px; }
+    .progress-info { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--text-secondary); font-weight: 600; margin-bottom: 6px; }
+    .progress-bar-bg { width: 100%; height: 8px; background: #e5e5ea; border-radius: 4px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; width: 0%; background: #34c759; transition: width 0.3s ease, background-color 0.3s ease; }
+
+    .calc-tip-box {
+        margin-top: 14px;
+        background: #fff8e6;
+        border: 1px solid #ffe599;
+        color: #8a6d3b;
+        font-size: 11.5px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        line-height: 1.4;
+    }
+
+    @media (max-width: 820px) {
+        .credit-grid { grid-template-columns: 1fr; }
+        .calculator-card { position: static; }
+    }
+
+    @media (max-width: 768px) {
+        .map-legend-grid { grid-template-columns: repeat(2, 1fr); }
+        .container { padding: 0 12px; margin-top: 16px; }
+        .master-timeline-card { padding: 18px 14px 16px; }
+        .credit-header-card, .budget-summary-card, .menu-section { padding: 16px; }
+        .credit-top-bar { flex-direction: column; align-items: stretch; gap: 12px; }
+        .credit-top-bar .header-nav-btn { width: 100%; justify-content: center; }
+        .hotel-tabs { width: 100%; }
+        .hotel-tabs .tab-btn { flex: 1; font-size: 12px; padding: 8px 6px; }
+        #credit-hotel-title { font-size: 18px !important; }
+        .credit-header-card h2 { font-size: 18px !important; }
+    }
+
+    @media (max-width: 640px) {
+        .map-legend-grid { grid-template-columns: 1fr; }
+        header h1 { font-size: 17px; }
+        header p { font-size: 11px; }
+        .header-content { padding: 0 14px 10px; }
+    }
+
+    @media (max-width: 600px) {
+        .day-body { padding: 16px; }
+        .day-header { padding: 18px 18px 14px; }
+        header h1 { font-size: 18px; }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="header-content">
+        <div class="header-title-group">
+            <h1>San Diego & Disneyland</h1>
+            <p>5-Day Family Vacation Itinerary • November 2026</p>
+        </div>
+        <div class="nav-btn-group">
+            <button class="header-nav-btn" onclick="openBudgetSummary()" id="global-budget-nav-btn" style="background: rgba(52, 199, 89, 0.1); border-color: rgba(52, 199, 89, 0.3); color: #34c759;">
+                <span>💰</span> 全程预算明细与汇总
+            </button>
+            <button class="header-nav-btn" onclick="openHotelCredit('intercontinental')" id="global-credit-nav-btn">
+                <span>🏨</span> 酒店Credit规划
+            </button>
+        </div>
+    </div>
+    <div class="header-spectrum"></div>
+</header>
+
+<div class="container">
+
+    <!-- ==================== 界面 1: 行程总览 ==================== -->
+    <main id="itinerary-view" class="view-page active">
+
+        <!-- 顶部全量行程总览时间轴 -->
+        <div class="master-timeline-card">
+            <div class="master-timeline-title">📌 全行程节点总览 · 10 大环节</div>
+            <div class="legend">
+                <div class="legend-item"><span class="legend-dot" style="background:var(--d1)"></span>Day 1</div>
+                <div class="legend-item"><span class="legend-dot" style="background:var(--d2)"></span>Day 2</div>
+                <div class="legend-item"><span class="legend-dot" style="background:var(--d3)"></span>Day 3</div>
+                <div class="legend-item"><span class="legend-dot" style="background:var(--d4)"></span>Day 4</div>
+                <div class="legend-item"><span class="legend-dot" style="background:var(--d5)"></span>Day 5</div>
+            </div>
+            <div class="master-track">
+                <div class="master-step" style="--dot: var(--d1)">
+                    <div class="step-day">D1</div>
+                    <div class="step-dot">✈️</div>
+                    <div class="step-label">落地 SAN</div>
+                </div>
+                <div class="master-step" style="--dot: var(--d2)">
+                    <div class="step-day">D2</div>
+                    <div class="step-dot">🚢</div>
+                    <div class="step-label">中途岛航母</div>
+                </div>
+                <div class="master-step" style="--dot: var(--d2)">
+                    <div class="step-day">D2</div>
+                    <div class="step-label">小意大利</div>
+                    <div class="step-dot">🍝</div>
+                </div>
+                <div class="master-step highlight" style="--dot: var(--d3)">
+                    <div class="step-day">D3</div>
+                    <div class="step-dot">🚗</div>
+                    <div class="step-label">机场取车</div>
+                </div>
+                <div class="master-step highlight" style="--dot: var(--d3)">
+                    <div class="step-day">D3</div>
+                    <div class="step-dot">🏰</div>
+                    <div class="step-label">迪士尼乐园</div>
+                </div>
+                <div class="master-step highlight" style="--dot: var(--d3)">
+                    <div class="step-day">D3</div>
+                    <div class="step-dot">🏨</div>
+                    <div class="step-label">入住 Oceanside</div>
+                </div>
+                <div class="master-step" style="--dot: var(--d4)">
+                    <div class="step-day">D4</div>
+                    <div class="step-dot">🧱</div>
+                    <div class="step-label">乐高乐园</div>
+                </div>
+                <div class="master-step" style="--dot: var(--d4)">
+                    <div class="step-day">D4</div>
+                    <div class="step-dot">🏖️</div>
+                    <div class="step-label">海滩落日</div>
+                </div>
+                <div class="master-step" style="--dot: var(--d5)">
+                    <div class="step-day">D5</div>
+                    <div class="step-dot">🗼</div>
+                    <div class="step-label">老灯塔&动物园</div>
+                </div>
+                <div class="master-step highlight" style="--dot: var(--d5)">
+                    <div class="step-day">D5</div>
+                    <div class="step-label">还车返程</div>
+                    <div class="step-dot">🛫</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 航班信息总览 -->
+        <div class="master-timeline-card">
+            <div class="section-toggle-header" onclick="toggleCollapse(this)">
+                <span class="flight-section-title" style="margin-bottom:0">✈️ 往返航班信息 · Southwest Airlines</span>
+                <span class="chevron"></span>
+            </div>
+            <div class="collapsible-body">
+            <div class="flight-cards-grid">
+
+                <!-- 去程 -->
+                <div class="flight-card" style="--flight-accent: var(--d1)">
+                    <div class="flight-card-top">
+                        <div class="airline-name">
+                            <span class="airline-logo-dot">WN</span>
+                            <div>
+                                <span class="flight-dir-tag">去程 · 11月19日 周四</span>
+                                Southwest Airlines
+                            </div>
+                        </div>
+                        <span class="flight-number-badge">WN 2756</span>
+                    </div>
+                    <div class="flight-route">
+                        <div class="flight-point">
+                            <div class="fp-time">8:00 PM</div>
+                            <div class="fp-code">AUS</div>
+                            <div class="fp-city">Austin</div>
+                        </div>
+                        <div class="flight-path">
+                            <div class="fp-duration">飞行 3 小时</div>
+                            <div class="fp-line"><span class="fp-plane">✈️</span></div>
+                            <div class="fp-nonstop">直飞 Nonstop</div>
+                        </div>
+                        <div class="flight-point">
+                            <div class="fp-time">9:00 PM</div>
+                            <div class="fp-code">SAN</div>
+                            <div class="fp-city">San Diego</div>
+                        </div>
+                    </div>
+                    <div class="flight-footer">
+                        <span>Day 1 · 3位旅客 (含税费)</span>
+                        <span class="ff-tag">已包含在总价</span>
+                    </div>
+                </div>
+
+                <!-- 回程 -->
+                <div class="flight-card" style="--flight-accent: var(--d5)">
+                    <div class="flight-card-top">
+                        <div class="airline-name">
+                            <span class="airline-logo-dot">WN</span>
+                            <div>
+                                <span class="flight-dir-tag">回程 · 11月23日 周一</span>
+                                Southwest Airlines
+                            </div>
+                        </div>
+                        <span class="flight-number-badge">WN 3682</span>
+                    </div>
+                    <div class="flight-route">
+                        <div class="flight-point">
+                            <div class="fp-time">7:00 PM</div>
+                            <div class="fp-code">SAN</div>
+                            <div class="fp-city">San Diego</div>
+                        </div>
+                        <div class="flight-path">
+                            <div class="fp-duration">飞行 2 小时 45 分</div>
+                            <div class="fp-line"><span class="fp-plane">✈️</span></div>
+                            <div class="fp-nonstop">直飞 Nonstop</div>
+                        </div>
+                        <div class="flight-point">
+                            <div class="fp-time">11:45 PM</div>
+                            <div class="fp-code">AUS</div>
+                            <div class="fp-city">Austin</div>
+                        </div>
+                    </div>
+                    <div class="flight-footer">
+                        <span>Day 5 · 3位旅客 (往返机票总价)</span>
+                        <span class="ff-price">$590.40</span>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+        </div>
+
+        <!-- 酒店住宿信息总览 -->
+        <div class="master-timeline-card">
+            <div class="section-toggle-header" onclick="toggleCollapse(this)">
+                <span class="flight-section-title" style="margin-bottom:0">🏨 住宿预订信息与 Reserve Card 权益</span>
+                <span class="chevron"></span>
+            </div>
+            <div class="collapsible-body">
+            <div class="hotel-cards-grid">
+
+                <!-- 酒店 1 -->
+                <div class="hotel-card" style="--hotel-accent: var(--d1)">
+                    <div>
+                        <div class="hotel-card-top">
+                            <div class="hotel-name-wrap">
+                                <span class="hotel-icon-dot">🏨</span>
+                                <span class="hotel-name">InterContinental San Diego</span>
+                            </div>
+                            <span class="hotel-status-badge">已确认</span>
+                        </div>
+                        <div class="hotel-stay-row">
+                            <div class="hotel-stay-point">
+                                <div class="hs-label">入住</div>
+                                <div class="hs-date">11月19日 周四</div>
+                                <div class="hs-time">下午 3:00 起</div>
+                            </div>
+                            <div class="hotel-stay-divider">
+                                <div class="hsd-nights">2 晚</div>
+                                <div class="hsd-line"></div>
+                            </div>
+                            <div class="hotel-stay-point" style="text-align: right">
+                                <div class="hs-label">退房</div>
+                                <div class="hs-date">11月21日 周六</div>
+                                <div class="hs-time">上午 11:00 前</div>
+                            </div>
+                        </div>
+                        <div class="hotel-room-line"><strong>房型：</strong>Classic Room, 1 King Bed</div>
+                        <div class="hotel-meta-row">
+                            <span class="hotel-meta-chip">💳 Reserve 卡特权</span>
+                            <span class="hotel-meta-chip">🍳 每日双人早餐</span>
+                            <span class="hotel-meta-chip">💵 $100 消费 Credit</span>
+                            <span class="hotel-meta-chip">🕓 保证 4pm 延退</span>
+                            <span class="hotel-meta-chip">🔑 视房态提前入住</span>
+                            <span class="hotel-meta-chip">⬆️ 视房态升房</span>
+                            <span class="hotel-meta-chip">🎁 欢迎礼品</span>
+                            <span class="hotel-meta-chip">📶 免费 Wi-Fi</span>
+                        </div>
+                    </div>
+
+                    <!-- 专属点击跳转按钮 -->
+                    <button class="hotel-credit-btn" onclick="openHotelCredit('intercontinental')">
+                        🍽️ 查看 $100 Credit 内部消费与菜单 →
+                    </button>
+
+                    <div class="hotel-footer">
+                        <span>确认号 <span class="hf-code">••••••••</span></span>
+                        <span class="hf-price">$984.77</span>
+                    </div>
+                </div>
+
+                <!-- 酒店 2 -->
+                <div class="hotel-card" style="--hotel-accent: var(--d3)">
+                    <div>
+                        <div class="hotel-card-top">
+                            <div class="hotel-name-wrap">
+                                <span class="hotel-icon-dot">🏖️</span>
+                                <span class="hotel-name">The Seabird Resort</span>
+                            </div>
+                            <span class="hotel-status-badge">已确认</span>
+                        </div>
+                        <div class="hotel-stay-row">
+                            <div class="hotel-stay-point">
+                                <div class="hs-label">入住</div>
+                                <div class="hs-date">11月21日 周六</div>
+                                <div class="hs-time">下午 4:00 起</div>
+                            </div>
+                            <div class="hotel-stay-divider">
+                                <div class="hsd-nights">2 晚</div>
+                                <div class="hsd-line"></div>
+                            </div>
+                            <div class="hotel-stay-point" style="text-align: right">
+                                <div class="hs-label">退房</div>
+                                <div class="hs-date">11月23日 周一</div>
+                                <div class="hs-time">上午 11:00 前</div>
+                            </div>
+                        </div>
+                        <div class="hotel-room-line"><strong>房型：</strong>1 King Bed Partial Ocean View</div>
+                        <div class="hotel-meta-row">
+                            <span class="hotel-meta-chip">💳 Reserve 卡特权</span>
+                            <span class="hotel-meta-chip">🍳 每日双人早餐</span>
+                            <span class="hotel-meta-chip">💵 $100 消费 Credit</span>
+                            <span class="hotel-meta-chip">⏰ 视房态早入住/迟退房</span>
+                            <span class="hotel-meta-chip">⬆️ 视房态升房</span>
+                            <span class="hotel-meta-chip">🎁 欢迎礼品</span>
+                            <span class="hotel-meta-chip">📶 免费 Wi-Fi</span>
+                        </div>
+                    </div>
+
+                    <!-- 专属点击跳转按钮 -->
+                    <button class="hotel-credit-btn" onclick="openHotelCredit('seabird')">
+                        🍽️ 查看 $100 Credit 内部消费与菜单 →
+                    </button>
+
+                    <div class="hotel-footer">
+                        <span>确认号 <span class="hf-code">••••••••••••••</span></span>
+                        <span class="hf-price">$1,053.71</span>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+        </div>
+
+        <!-- Day 1 -->
+        <div class="day-card" style="--accent: var(--d1)">
+            <div class="day-header" data-num="01">
+                <div class="day-title-wrap">
+                    <span class="day-dot"></span>
+                    <span class="day-title">Day 1 · 晚间抵达</span>
+                </div>
+                <span class="day-badge">11月19日 周四</span>
+            </div>
+            <div class="day-body">
+                <div class="timeline">
+                    <div class="node-card">
+                        <div class="node-header">
+                            <span class="node-title">🛬 1. 圣地亚哥国际机场 (SAN)</span>
+                            <span class="node-time">21:00 落地</span>
+                        </div>
+                        <p class="node-desc">乘坐 Southwest Airlines <strong>WN 2756</strong> 航班（20:00 AUS 起飞 → 21:00 SAN 落地），顺利降落并提取行李。今晚无需租车，直接打车入住酒店。</p>
+                    </div>
+
+                    <div class="drive-segment">
+                        <div class="drive-badge">🚕 打车约 <strong>10 分钟</strong> (约 3.5 英里)</div>
+                    </div>
+
+                    <div class="node-card">
+                        <div class="node-header">
+                            <span class="node-title">🏨 InterContinental San Diego (入住)</span>
+                            <span class="node-time">21:40</span>
+                        </div>
+                        <p class="node-address">📍 901 Bayfront Ct, San Diego, CA 92101</p>
+                        <p class="node-desc">办理入住休整，酒店紧邻海畔，享受安静海景夜色，给宝宝准备好睡眠。</p>
+                        <a href="https://maps.apple.com/?q=InterContinental+San+Diego" target="_blank" class="map-btn">在 Apple 地图中打开 ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 2 -->
+        <div class="day-card" style="--accent: var(--d2)">
+            <div class="day-header" data-num="02">
+                <div class="day-title-wrap">
+                    <span class="day-dot"></span>
+                    <span class="day-title">Day 2 · 亲子海滨漫步与小意大利美食</span>
+                </div>
+                <span class="day-badge">11月20日 周五</span>
+            </div>
+            <div class="day-body">
+                <div class="info-pill">
+                    👶 <strong>带娃轻松模式：</strong> 14:00 之前可让宝宝在酒店推车散步或午睡，14:15 后开启轻松周边游。无需赶路，全程打车。
+                </div>
+
+                <div class="timeline">
+                    <div class="node-card">
+                        <div class="node-header">
+                            <span class="node-title">🏨 酒店出发</span>
+                            <span class="node-time">14:15</span>
+                        </div>
+                        <p class="node-desc">从 InterContinental 酒店步行或打车前往 USS Midway，海滨步道风景极佳。</p>
+                    </div>
+
+                    <div class="drive-segment">
+                        <div class="drive-badge">🚶 步行/打车约 <strong>5 - 8 分钟</strong></div>
+                    </div>
+
+                    <div class="node-card">
+                        <div class="node-header">
+                            <span class="node-title">🚢 2. USS Midway & 胜利之吻周边漫步</span>
+                            <span class="node-time">14:30 - 17:15</span>
+                        </div>
+                        <p class="node-address">📍 910 N Harbor Dr, San Diego, CA 92101</p>
+                        <p class="node-desc">带 3 岁宝宝逛航母可推婴儿车（飞行甲板非常宽敞）。登舰参观看飞机，随后沿海边草坪散步至 Tuna Harbor Park 打卡“胜利之吻”雕塑，周边海边草地非常适合小宝宝跑动放松，还能近距离看港湾帆船与海鸥。</p>
+                        <div class="poi-toggle-header" onclick="toggleCollapse(this)">
+                            <span>📍 附近亲子必打卡精选</span>
+                            <span class="chevron"></span>
+                        </div>
+                        <div class="collapsible-body">
+                        <div class="poi-list">
+                            <a class="poi-item" href="https://maps.apple.com/?q=910+N+Harbor+Dr,+San+Diego,+CA+92101" target="_blank" rel="noopener"><span class="poi-name">🚢 USS Midway Museum 甲板看飞机</span><span class="poi-addr">910 N Harbor Dr</span></a>
+                            <a class="poi-item" href="https://maps.apple.com/?q=55+Tuna+Ln,+San+Diego,+CA+92101" target="_blank" rel="noopener"><span class="poi-name">💋 胜利之吻 & 军港海滨公园</span><span class="poi-addr">55 Tuna Ln</span></a>
+                            <a class="poi-item" href="https://maps.apple.com/?q=849+W+Harbor+Dr,+San+Diego,+CA+92101" target="_blank" rel="noopener"><span class="poi-name">🛍️ Seaport Village 旋转木马&海边小镇</span><span class="poi-addr">849 W Harbor Dr</span></a>
+                        </div>
+                        </div>
+                        <a href="https://maps.apple.com/?q=USS+Midway+Museum" target="_blank" class="map-btn">在 Apple 地图中打开 ↗</a>
+                    </div>
+
+                    <div class="drive-segment">
+                        <div class="drive-badge">🚕 打车约 <strong>6 分钟</strong> (约 1.2 英里)</div>
+                    </div>
+
+                    <div class="node-card">
+                        <div class="node-header">
+                            <span class="node-title">🍝 3. Little Italy (小意大利街区)</span>
+                            <span class="node-time">17:30 - 19:30</span>
+                        </div>
+                        <p class="node-address">📍 W Date St, San Diego, CA 92101</p>
+                        <p class="node-desc">环境极其舒适的欧式风情街区。推荐在 <strong>Piazza della Famiglia</strong> 广场漫步看喷泉、打卡 **Little Italy Sign** 地标招牌。晚餐可选择极度亲子的 **Little Italy Food Hall** 露天用餐，或去复古经典的 **Filippi's Pizza Grotto**，亦或在 **Monello** 尝尝巨型芝士轮意面；餐后必吃 **Salt & Straw** 或正宗意式 Gelato！</p>
+                        <div class="poi-toggle-header" onclick="toggleCollapse(this)">
+                            <span>📍 小意大利必打卡&美食拓展精选</span>
+                            <span class="chevron"></span>
+                        </div>
+                        <div class="collapsible-body">
+                        <div class="poi-list">
+                            <a class="poi-item" href="https://maps.apple.com/?q=Little+Italy+Sign+San+Diego" target="_blank" rel="noopener"><span class="poi-name">📸 Little Italy Sign 复古地标招牌</span><span class="poi-addr">India St & W Date St</span></a>
+                            <a class="poi-item" href="https://maps.apple.com/?q=555+W+Date+St,+San+Diego,+CA+92101" target="_blank" rel="noopener"><span class="poi-name">⛲ Piazza della Famiglia 喷泉广场</span><span class="poi-addr">555 W Date St</span></a>
+                            <a class="poi-item" href="https://maps.apple.com/?q=Little+Italy+Food+Hall+San+Diego" target="_blank" rel="noopener"><span class="poi-name">🍕 Little Italy Food Hall 广场美食荟(无压力)</span><span class="poi-addr">555 W Date St</span></a>
+                            <a class="poi-item" href="https://maps.apple.com/?q=1601+India+St,+San+Diego,+CA+92101" target="_blank" rel="noopener"><span class="poi-name">🍝 Filippi's Pizza Grotto 复古老店(不怕吵)</span><span class="poi-addr">1601 India St</span></a>
+                            <a class="poi-item" href="https://maps.apple.com/?q=Monello+San+Diego" target="_blank" rel="noopener"><span class="poi-name">🧀 Monello 巨型芝士轮意面</span><span class="poi-addr">750 W Fir St</span></a>
+                            <a class="poi-item" href="https://maps.apple.com/?q=1670+India+St,+San+Diego,+CA+92101" target="_blank" rel="noopener"><span class="poi-name">🍦 Salt & Straw 人气网红冰淇淋</span><span class="poi-addr">1670 India St</span></a>
+                            <a class="poi-item" href="https://maps.apple.com/?q=Pappalecco+San+Diego" target="_blank" rel="noopener"><span class="poi-name">🍨 Pappalecco 绵密意式 Gelato</span><span class="poi-addr">1603 India St</span></a>
+                            <a class="poi-item" href="https://maps.apple.com/?q=Waterfront+Park+San+Diego" target="_blank" rel="noopener"><span class="poi-name">🛝 Waterfront Park 海滨儿童公园(放电)</span><span class="poi-addr">1600 Pacific Hwy</span></a>
+                        </div>
+                        </div>
+                        <a href="https://maps.apple.com/?q=Little+Italy+San+Diego" target="_blank" class="map-btn">在 Apple 地图中打开 ↗</a>
+                    </div>
+
+                    <div class="drive-segment">
+                        <div class="drive-badge">🚕 返回酒店打车约 <strong>5 分钟</strong> (约 1.0 英里)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 3 -->
+        <div class="day-card" style="--accent: var(--d3)">
+            <div class="day-header" data-num="03">
+                <div class="day-title-wrap">
+                    <span class="day-dot"></span>
+                    <span class="day-title">Day 3 · 迪士尼梦幻之旅 & 酒店转移</span>
+                </div>
+                <span class="day-badge">11月21日 周六</span>
+            </div>
+            <div class="day-body">
+                <div class="timeline">
+                    <div class="node-card">
+                        <div class="node-header">
+                            <span class="node-title">🏨 酒店退房与租车取车</span>
+                            <span class="node-time">07:00 - 07:45</span>
+                        </div>
+                        <p class="node-address">📍 3355 Admiral Boland Way, San Diego, CA 92101</p>
+                        <p class="node-desc">早晨退房行李随身，打车前往 SAN 机场租车中心取车。取完车直接开往阿纳海姆。</p>
+                        <a href="https://maps.apple.com/?q=San+Diego+Airport+Rental+Car+Center" target="_blank" class="map-btn">在 Apple 地图中打开 ↗</a>
+                    </div>
+
+                    <div class="drive-segment">
+                        <div class="drive-badge">🚗 驾车约 <strong>1 小时 20 分钟</strong> (约 85 英里)</div>
+                    </div>
+
+                    <div class="node-card">
+                        <div class="node-header">
+                            <span class="node-title">🏰 5. Disneyland Park (加州迪士尼乐园)</span>
+                            <span class="node-time">09:15 - 20:00</span>
+                        </div>
+                        <p class="node-address">📍 1313 Disneyland Dr, Anaheim, CA 92802</p>
+                        <p class="node-desc">专为幼童设计的 Fantasyland（小飞侠、旋转木马、小小世界）非常适合 3 岁宝宝！下午可在推车上安排宝宝午睡休整，晚上看城堡灯光秀。</p>
+                        <a href="https://maps.apple.com/?q=Disneyland+Park+Anaheim" target="_blank" class="map-btn">在 Apple 地图中打开 ↗</a>
+                    </div>
+
+                    <div class="drive-segment">
+                        <div class="drive-badge">🚗 南下驾车约 <strong>55 分钟</strong> (约 58 英里)</div>
+                    </div>
+
+                    <div class="node-card">
+                        <div class="node-header">
+                            <span class="node-title">🏨 6. The Seabird Resort (入住)</span>
+                            <span class="node-time">21:00 以后</span>
+                        </div>
+                        <p class="node-address">📍 101 Mission Ave, Oceanside, CA 92054</p>
+                        <p class="node-desc">抵达 Oceanside 入住海滩度假村，正对沙滩，让宝宝在海浪声中舒适入睡。</p>
+                        <a href="https://maps.apple.com/?q=The+Seabird+Resort+Oceanside" target="_blank" class="map-btn">在 Apple 地图中打开 ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 4 -->
+        <div class="day-card" style="--accent: var(--d4)">
+            <div class="day-header" data-num="04">
+                <div class="day-title-wrap">
+                    <span class="day-dot"></span>
+                    <span class="day-title">Day 4 · 乐高乐园与海边慢生活</span>
+                </div>
+                <span class="day-badge">11月22日 周日</span>
+            </div>
+            <div class="day-body">
+                <div class="timeline">
+                    <div class="node-card">
+                        <div class="node-header">
+                            <span class="node-title">🏨 度假村出发</span>
+                            <span class="node-time">09:40</span>
+                        </div>
+                    </div>
+
+                    <div class="drive-segment">
+                        <div class="drive-badge">🚗 驾车约 <strong>15 分钟</strong> (约 8.5 英里)</div>
+                    </div>
+
+                    <div class="node-card">
+                        <div class="node-header">
+                            <span class="node-title">🧱 7. LEGOLAND California (乐高乐园)</span>
+                            <span class="node-time">10:00 - 15:00</span>
+                        </div>
+                        <p class="node-address">📍 1 Legoland Dr, Carlsbad, CA 92008</p>
+                        <p class="node-desc">乐高乐园的 Duplo Valley（得宝山谷）是专门为 2-4 岁幼童设计的，游乐项目极其温和有趣，完全不累。</p>
+                        <a href="https://maps.apple.com/?q=LEGOLAND+California" target="_blank" class="map-btn">在 Apple 地图中打开 ↗</a>
+                    </div>
+
+                    <div class="drive-segment">
+                        <div class="drive-badge">🚗 返回驾车约 <strong>15 分钟</strong> (约 8.5 英里)</div>
+                    </div>
+
+                    <div class="node-card">
+                        <div class="node-header">
+                            <span class="node-title">🏖️ 8. Oceanside Pier & 度假村海滩挖沙</span>
+                            <span class="node-time">15:30 以后</span>
+                        </div>
+                        <p class="node-address">📍 301 N The Strand, Oceanside, CA 92054</p>
+                        <p class="node-desc">回酒店休息，使用度假村 Beach Rambler 免费借用挖沙工具与遮阳伞，带宝宝在木栈桥下挖沙踩水；随后漫步 Oceanside Pier 看冲浪与太平洋落日。</p>
+                        <div class="poi-toggle-header" onclick="toggleCollapse(this)">
+                            <span>📍 Oceanside 亲子美食与必体验精选</span>
+                            <span class="chevron"></span>
+                        </div>
+                        <div class="collapsible-body">
+                        <div class="poi-list">
+                            <a class="poi-item" href="https://maps.apple.com/?q=101+Mission+Ave,+Oceanside,+CA+92054" target="_blank" rel="noopener"><span class="poi-name">🍽️ Piper at Seabird (度假村内亲子加州菜)</span><span class="poi-addr">101 Mission Ave</span></a>
+                            <a class="poi-item" href="https://maps.apple.com/?q=302+S+Coast+Hwy,+Oceanside,+CA+92054" target="_blank" rel="noopener"><span class="poi-name">🍔 Local Tap House (LTH 高分氛围感餐厅)</span><span class="poi-addr">302 S Coast Hwy</span></a>
+                            <a class="poi-item" href="https://maps.apple.com/?q=488+S+Coast+Hwy,+Oceanside,+CA+92054" target="_blank" rel="noopener"><span class="poi-name">🍩 Parlor Doughnuts (手工千层甜甜圈下午茶)</span><span class="poi-addr">488 S Coast Hwy</span></a>
+                            <a class="poi-item" href="https://maps.apple.com/?q=262+S+Harbor+Dr,+Oceanside,+CA+92054" target="_blank" rel="noopener"><span class="poi-name">⚓ Lighthouse Oyster Bar (海港海鲜看落日)</span><span class="poi-addr">262 S Harbor Dr</span></a>
+                        </div>
+                        </div>
+                        <a href="https://maps.apple.com/?q=Oceanside+Pier" target="_blank" class="map-btn">在 Apple 地图中打开 ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 5 -->
+        <div class="day-card" style="--accent: var(--d5)">
+            <div class="day-header" data-num="05">
+                <div class="day-title-wrap">
+                    <span class="day-dot"></span>
+                    <span class="day-title">Day 5 · 老灯塔、动物园与返程</span>
+                </div>
+                <span class="day-badge">11月23日 周一</span>
+            </div>
+            <div class="day-body">
+                <div class="timeline">
+                    <div class="node-card">
+                        <div class="node-header">
+                            <span class="node-title">🏨 退房前往 Point Loma</span>
+                            <span class="node-time">08:30 出发</span>
+                        </div>
+                    </div>
+
+                    <div class="drive-segment">
+                        <div class="drive-badge">🚗 南下驾车约 <strong>50 分钟</strong> (约 42 英里)</div>
+                    </div>
+
+                    <div class="node-card">
+                        <div class="node-header">
+                            <span class="node-title">🗼 Old Point Loma Lighthouse (老灯塔)</span>
+                            <span class="node-time">09:30 - 10:45</span>
+                        </div>
+                        <p class="node-address">📍 1800 Cabrillo Memorial Dr, San Diego, CA 92106</p>
+                        <p class="node-desc">打卡百年老灯塔，站在山顶远眺海港与军舰，视野极佳。沿途步道平整，非常适合带娃散步拍照。</p>
+                        <a href="https://maps.apple.com/?q=Old+Point+Loma+Lighthouse" target="_blank" class="map-btn">在 Apple 地图中打开 ↗</a>
+                    </div>
+
+                    <div class="drive-segment">
+                        <div class="drive-badge">🚗 驾车约 <strong>20 - 25 分钟</strong> (约 11 英里)</div>
+                    </div>
+
+                    <div class="node-card">
+                        <div class="node-header">
+                            <span class="node-title">🦁 9. San Diego Zoo & Balboa Park 亲子深度游</span>
+                            <span class="node-time">11:10 - 16:00</span>
+                        </div>
+                        <p class="node-address">📍 2920 Zoo Dr, San Diego, CA 92101</p>
+                        <p class="node-desc">世界顶级的动物园！带宝宝坐 <strong>Guided Bus Tour</strong> 观光巴士（省力看全园区），乘坐 <strong>Skyfari 缆车</strong>，看大熊猫与大象。随后步行至隔壁 Balboa Park，体验专为儿童设计的复古旋转木马和 Pepper Grove 儿童乐园。</p>
+                        <div class="poi-toggle-header" onclick="toggleCollapse(this)">
+                            <span>📍 动物园 & 巴尔博亚公园带娃必打卡</span>
+                            <span class="chevron"></span>
+                        </div>
+                        <div class="collapsible-body">
+                        <div class="poi-list">
+                            <a class="poi-item" href="https://maps.apple.com/?q=2920+Zoo+Dr,+San+Diego,+CA+92101" target="_blank" rel="noopener"><span class="poi-name">🦁 San Diego Zoo 熊猫馆/缆车/观光巴士</span><span class="poi-addr">2920 Zoo Dr</span></a>
+                            <a class="poi-item" href="https://maps.apple.com/?q=1889+Zoo+Pl,+San+Diego,+CA+92101" target="_blank" rel="noopener"><span class="poi-name">🎠 Balboa Park Carousel 百年旋转木马</span><span class="poi-addr">1889 Zoo Pl</span></a>
+                            <a class="poi-item" href="https://maps.apple.com/?q=Pepper+Grove+Playground+San+Diego" target="_blank" rel="noopener"><span class="poi-name">🛝 Pepper Grove Playground 儿童游乐场</span><span class="poi-addr">2000 Park Blvd</span></a>
+                            <a class="poi-item" href="https://maps.apple.com/?q=1549+El+Prado,+San+Diego,+CA+92101" target="_blank" rel="noopener"><span class="poi-name">🌺 植物馆与百合池 Botanical Building</span><span class="poi-addr">1549 El Prado</span></a>
+                        </div>
+                        </div>
+                        <a href="https://maps.apple.com/?q=San+Diego+Zoo" target="_blank" class="map-btn">在 Apple 地图中打开 ↗</a>
+                    </div>
+
+                    <div class="drive-segment">
+                        <div class="drive-badge">🚗 驾车前往机场约 <strong>10 分钟</strong> (约 3.5 英里)</div>
+                    </div>
+
+                    <div class="node-card">
+                        <div class="node-header">
+                            <span class="node-title">🛫 10. 机场还车 & 航班返程</span>
+                            <span class="node-time">16:10 - 19:00</span>
+                        </div>
+                        <p class="node-address">📍 3225 N Harbor Dr, San Diego, CA 92101</p>
+                        <p class="node-desc">16:10 抵达 SAN 机场还车（满 3 天租车），搭乘 Southwest Airlines <strong>WN 3682</strong> 航班 19:00 起飞，23:45 抵达 AUS，顺利回家！</p>
+                        <a href="https://maps.apple.com/?q=San+Diego+International+Airport" target="_blank" class="map-btn">在 Apple 地图中打开 ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 全程路线地图 -->
+        <div class="master-timeline-card map-card">
+            <div class="master-timeline-title">🗺️ 全程路线地图</div>
+            <p class="map-subtitle">圣地亚哥 ↔ 阿纳海姆 ↔ 奥欣赛德 · 示意图</p>
+
+            <div class="route-svg-wrap">
+                <svg viewBox="0 0 640 760" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arrowD3" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                            <path d="M0,0 L8,4 L0,8 Z" fill="var(--d3)"/>
+                        </marker>
+                        <marker id="arrowD5" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                            <path d="M0,0 L8,4 L0,8 Z" fill="var(--d5)"/>
+                        </marker>
+                        <linearGradient id="oceanFade" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#cfe8fb"/>
+                            <stop offset="100%" stop-color="#e6f3fc"/>
+                        </linearGradient>
+                    </defs>
+
+                    <!-- 陆地底色 -->
+                    <rect x="0" y="0" width="640" height="760" fill="#f3f2ee"/>
+
+                    <!-- 海岸线 & 海洋 -->
+                    <path d="M0,0 L300,0 C250,80 190,150 170,220 C150,290 130,340 140,400 C150,460 190,520 180,580 C175,610 165,640 160,700 L160,760 L0,760 Z" fill="url(#oceanFade)"/>
+                    <path d="M300,0 C250,80 190,150 170,220 C150,290 130,340 140,400 C150,460 190,520 180,580 C175,610 165,640 160,700 L160,760" fill="none" stroke="#b8dcf2" stroke-width="2"/>
+
+                    <!-- 指北针 -->
+                    <g transform="translate(590,40)" opacity="0.55">
+                        <circle r="18" fill="#ffffff" stroke="#d0d0d5"/>
+                        <path d="M0,-12 L4,0 L0,12 L-4,0 Z" fill="#8a8a8f"/>
+                        <text x="0" y="-22" text-anchor="middle" font-size="10" font-weight="700" fill="#8a8a8f">N</text>
+                    </g>
+
+                    <!-- Day1-2 市区打车环线 -->
+                    <path d="M175,600 C155,585 155,565 175,552 C195,565 195,585 175,600" fill="none" stroke="var(--d2)" stroke-width="3" stroke-dasharray="3 4" />
+                    <text x="140" y="575" font-size="9.5" font-weight="700" fill="var(--d2)" text-anchor="middle">D1·D2</text>
+
+                    <!-- Day3 出程：圣地亚哥 → 阿纳海姆 -->
+                    <path d="M235,610 C300,470 360,260 420,130" fill="none" stroke="var(--d3)" stroke-width="4" marker-end="url(#arrowD3)"/>
+                    <text x="345" y="330" font-size="11" font-weight="700" fill="var(--d3)" transform="rotate(-58 345 330)">Day 3 · ~85 mi</text>
+
+                    <!-- Day3 出程：阿纳海姆 → 奥欣赛德 -->
+                    <path d="M405,145 C320,180 200,220 158,275" fill="none" stroke="var(--d3)" stroke-width="4" marker-end="url(#arrowD3)"/>
+                    <text x="290" y="185" font-size="11" font-weight="700" fill="var(--d3)" transform="rotate(20 290 185)">~58 mi</text>
+
+                    <!-- Day4 乐高/海滩 局部小环 -->
+                    <path d="M120,300 C90,320 90,350 120,365 C150,350 150,320 120,300" fill="none" stroke="var(--d4)" stroke-width="3" stroke-dasharray="3 4"/>
+                    <text x="72" y="335" font-size="9.5" font-weight="700" fill="var(--d4)" text-anchor="middle">Day 4</text>
+
+                    <!-- Day5 返程：奥欣赛德 → 圣地亚哥 -->
+                    <path d="M148,315 C110,430 130,540 200,615" fill="none" stroke="var(--d5)" stroke-width="4" marker-end="url(#arrowD5)"/>
+                    <text x="105" y="470" font-size="11" font-weight="700" fill="var(--d5)" transform="rotate(78 105 470)">Day 5 返程</text>
+
+                    <!-- Hub: 圣地亚哥市区 & 海湾 -->
+                    <circle cx="210" cy="630" r="42" fill="#ffffff" stroke="var(--d1)" stroke-width="3"/>
+                    <text x="210" y="622" text-anchor="middle" font-size="22">🌉</text>
+                    <text x="210" y="642" text-anchor="middle" font-size="9" font-weight="700" fill="var(--text-primary)">圣地亚哥市区</text>
+
+                    <!-- Hub: 奥欣赛德 & 卡尔斯巴德 -->
+                    <circle cx="150" cy="290" r="38" fill="#ffffff" stroke="var(--d4)" stroke-width="3"/>
+                    <text x="150" y="283" text-anchor="middle" font-size="20">🏖️</text>
+                    <text x="150" y="302" text-anchor="middle" font-size="8.5" font-weight="700" fill="var(--text-primary)">奥欣赛德/卡尔斯巴德</text>
+
+                    <!-- Hub: 阿纳海姆 · 迪士尼 -->
+                    <circle cx="430" cy="115" r="40" fill="#ffffff" stroke="var(--d3)" stroke-width="3"/>
+                    <text x="430" y="108" text-anchor="middle" font-size="22">🏰</text>
+                    <text x="430" y="128" text-anchor="middle" font-size="9" font-weight="700" fill="var(--text-primary)">阿纳海姆·迪士尼</text>
+                </svg>
+            </div>
+
+            <div class="map-legend-grid">
+                <div class="map-hub-card">
+                    <div class="map-hub-title">🌉 圣地亚哥市区 & 海湾</div>
+                    <div class="map-hub-stops">
+                        <div class="map-hub-stop"><span class="map-stop-dot" style="background:var(--d1)"></span>✈️ SAN 机场 · 🏨 InterContinental 酒店（Day 1）</div>
+                        <div class="map-hub-stop"><span class="map-stop-dot" style="background:var(--d2)"></span>🚢 中途岛航母 · 🍝 小意大利（Day 2）</div>
+                        <div class="map-hub-stop"><span class="map-stop-dot" style="background:var(--d3)"></span>🚗 机场取车（Day 3 清晨）</div>
+                        <div class="map-hub-stop"><span class="map-stop-dot" style="background:var(--d5)"></span>🗼 老灯塔 · 🦁 动物园 · 🛫 还车返程（Day 5）</div>
+                    </div>
+                </div>
+                <div class="map-hub-card">
+                    <div class="map-hub-title">🏰 阿纳海姆 · 迪士尼乐园</div>
+                    <div class="map-hub-stops">
+                        <div class="map-hub-stop"><span class="map-stop-dot" style="background:var(--d3)"></span>🏰 Disneyland Park 全天畅玩（Day 3）</div>
+                    </div>
+                </div>
+                <div class="map-hub-card">
+                    <div class="map-hub-title">🏖️ 奥欣赛德 & 卡尔斯巴德</div>
+                    <div class="map-hub-stops">
+                        <div class="map-hub-stop"><span class="map-stop-dot" style="background:var(--d3)"></span>🏨 The Seabird Resort 入住（Day 3 晚）</div>
+                        <div class="map-hub-stop"><span class="map-stop-dot" style="background:var(--d4)"></span>🧱 LEGOLAND · 🏖️ Oceanside Pier（Day 4）</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+
+    <!-- ==================== 界面 2: 酒店 Credit 消费与算账界面 ==================== -->
+    <section id="credit-planner-view" class="view-page">
+
+        <!-- 顶部选择与控制卡片 -->
+        <div class="credit-header-card">
+            <div class="credit-top-bar">
+                <button class="header-nav-btn" onclick="backToItinerary()" style="background:#ffffff; color:var(--text-primary); border:1px solid #d0d0d5;">
+                    ← 返回行程总览
+                </button>
+                <div class="hotel-tabs">
+                    <button class="tab-btn active" id="tab-intercontinental" onclick="switchHotelTab('intercontinental')">
+                        🏨 InterContinental (洲际)
+                    </button>
+                    <button class="tab-btn" id="tab-seabird" onclick="switchHotelTab('seabird')">
+                        🏖️ The Seabird Resort
+                    </button>
+                </div>
+            </div>
+            <div style="margin-top:16px;">
+                <h2 id="credit-hotel-title" style="font-size:22px; font-weight:800;">InterContinental San Diego</h2>
+                <p id="credit-hotel-subtitle" style="font-size:13px; color:var(--text-secondary); margin-top:2px;">
+                    每天享有 <strong>$100 Property Credit</strong>（可用于餐厅、酒吧挂账及代客泊车等消费）
+                </p>
+            </div>
+        </div>
+
+        <div class="credit-grid">
+            <!-- 左侧：动态消费菜单列表 -->
+            <div id="credit-menu-container">
+                <!-- 动态注入菜单内容 -->
+            </div>
+
+            <!-- 右侧：$100 Credit 动态凑单计算器 -->
+            <div>
+                <div class="calculator-card">
+                    <div class="calc-title">
+                        <span>🧮 $100 额度规划器</span>
+                        <button class="clear-btn" onclick="resetCart()">清空</button>
+                    </div>
+
+                    <div class="cart-list" id="cart-items">
+                        <p style="text-align:center; color:#8e8e93; font-size:12px; padding:20px 0;">
+                            点击左侧菜单项目的“+ 添加”即可自动凑单计算
+                        </p>
+                    </div>
+
+                    <div>
+                        <div class="calc-summary-row">
+                            <span>餐食/服务小计:</span>
+                            <span id="cart-subtotal" style="font-weight:700;">$0.00</span>
+                        </div>
+                        <div class="calc-summary-row" style="font-size:11.5px;">
+                            <span>预估税费与小费 (~28%):</span>
+                            <span id="cart-tax-tip">$0.00</span>
+                        </div>
+                        <div class="calc-total-row">
+                            <span>房账预计总消费:</span>
+                            <span id="cart-total" style="color:#34c759;">$0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="progress-box">
+                        <div class="progress-info">
+                            <span>$100 Credit 使用率</span>
+                            <span id="progress-percent">0%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="progress-bar"></div>
+                        </div>
+                        <p id="credit-status-tip" style="font-size:12px; font-weight:700; text-anchor:middle; text-align:center; margin-top:8px; color:var(--text-secondary);">
+                            还可使用 $100.00 额度
+                        </p>
+                    </div>
+
+                    <div class="calc-tip-box">
+                        💡 <strong>挂账提醒：</strong> 请在结账时告知服务员将费用<strong>挂账到房间号（Room Charge）</strong>，退房时前台会自动使用每日 $100 Credit 抵扣。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ==================== 界面 3: 详细预算明细与注意事项汇总 ==================== -->
+    <section id="budget-planner-view" class="view-page">
+        <div class="credit-header-card">
+            <div class="credit-top-bar">
+                <button class="header-nav-btn" onclick="backToItinerary()" style="background:#ffffff; color:var(--text-primary); border:1px solid #d0d0d5;">
+                    ← 返回行程总览
+                </button>
+                <div style="font-size:14px; font-weight:800; color:var(--text-secondary);">
+                    预估总花费: <span style="font-size:20px; color:#34c759;">$3,757.88</span>
+                </div>
+            </div>
+            <div style="margin-top:16px;">
+                <h2 style="font-size:22px; font-weight:800;">💰 全程项目价格明细与服务注意事项</h2>
+                <p style="font-size:13px; color:var(--text-secondary); margin-top:2px;">
+                    包含机票、酒店、租车、景点门票与餐饮服务预估及关键避坑提示
+                </p>
+            </div>
+        </div>
+
+        <div class="budget-summary-card">
+            <div class="table-scroll-wrap">
+            <table class="budget-table">
+                <thead>
+                    <tr>
+                        <th style="width: 18%;">类别 / 项目</th>
+                        <th style="width: 25%;">服务内容与规格</th>
+                        <th style="width: 12%;">状态</th>
+                        <th style="width: 33%;">注意事项与避坑指南</th>
+                        <th style="width: 12%; text-align: right;">预估金额</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>✈️ 往返机票</strong><br><span style="font-size:11px; color:var(--text-secondary);">Southwest</span></td>
+                        <td>
+                            AUS ↔ SAN 往返机票
+                            <ul class="note-list">
+                                <li>去程: WN 2756 (11/19 20:00)</li>
+                                <li>回程: WN 3682 (11/23 19:00)</li>
+                                <li>旅客: 2成人 + 1幼童 (3岁)</li>
+                            </ul>
+                        </td>
+                        <td><span class="status-tag tag-paid">已预订</span></td>
+                        <td>
+                            <ul class="note-list">
+                                <li>Southwest 无预先指定座位，建议提前 24 小时严格在线 Check-in 取登机序号。</li>
+                                <li>因有 3 岁宝宝，可在 A 组登机完毕后享受 <strong>Family Boarding</strong> 优先登机，保障一家人坐在一起。</li>
+                            </ul>
+                        </td>
+                        <td class="price-col">$590.40</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🏨 酒店 1</strong><br><span style="font-size:11px; color:var(--text-secondary);">InterContinental</span></td>
+                        <td>
+                            圣地亚哥洲际酒店 (2晚)
+                            <ul class="note-list">
+                                <li>房型: Classic Room, 1 King</li>
+                                <li>确认号: ••••••••</li>
+                                <li>卡权益: 每日双早 + $100 Credit + 4pm 延退</li>
+                            </ul>
+                        </td>
+                        <td><span class="status-tag tag-paid">已预订</span></td>
+                        <td>
+                            <ul class="note-list">
+                                <li>$100 Credit 需挂账至房号，可用于 Vistal 餐厅餐饮或泊车。</li>
+                                <li>使用 Reserve 卡预订享受保证 16:00 延迟退房，Day 3 清晨退房前可放心使用。</li>
+                            </ul>
+                        </td>
+                        <td class="price-col">$984.77</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🏨 酒店 2</strong><br><span style="font-size:11px; color:var(--text-secondary);">The Seabird</span></td>
+                        <td>
+                            The Seabird Resort (2晚)
+                            <ul class="note-list">
+                                <li>房型: 1 King Partial Ocean View</li>
+                                <li>确认号: ••••••••••••••</li>
+                                <li>卡权益: 每日双早 + $100 Credit</li>
+                            </ul>
+                        </td>
+                        <td><span class="status-tag tag-paid">已预订</span></td>
+                        <td>
+                            <ul class="note-list">
+                                <li>$100 Resort Credit 推荐用于 Piper 餐厅或 Rooftop Bar。</li>
+                                <li>度假村 Beach Rambler 服务可免费借用挖沙工具与遮阳伞，无需自行购买。</li>
+                            </ul>
+                        </td>
+                        <td class="price-col">$1,053.71</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🚗 租车与交通</strong><br><span style="font-size:11px; color:var(--text-secondary);">SAN 机场取还</span></td>
+                        <td>
+                            三日租车 + 网约车 (Uber/Lyft)
+                            <ul class="note-list">
+                                <li>D1-D2: 市区 Uber/Lyft 打车</li>
+                                <li>D3-D5: SAN 机场租车 (SUV/中型车)</li>
+                                <li>包含油费与停车费预估</li>
+                            </ul>
+                        </td>
+                        <td><span class="status-tag tag-est">预估花费</span></td>
+                        <td>
+                            <ul class="note-list">
+                                <li>根据加州法律，<strong>3 岁儿童必须使用安全座椅 (Car Seat)</strong>，租车时需勾选或自带。</li>
+                                <li>迪士尼停车场（约 $35/天）及酒店代客泊车费用需留足预算。</li>
+                            </ul>
+                        </td>
+                        <td class="price-col">$280.00</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🏰 迪士尼乐园</strong><br><span style="font-size:11px; color:var(--text-secondary);">Disneyland Park</span></td>
+                        <td>
+                            Disneyland Park 单日门票
+                            <ul class="note-list">
+                                <li>2 张成人票 + 1 张儿童票 (3岁)</li>
+                                <li>包含全天常规设施与灯光秀</li>
+                            </ul>
+                        </td>
+                        <td><span class="status-tag tag-est">预估花费</span></td>
+                        <td>
+                            <ul class="note-list">
+                                <li>买票后<strong>必须提前在迪士尼 App 完成 Park Reservation (园区预约)</strong>。</li>
+                                <li>极度推荐买票后下载 Disneyland App，使用 Rider Switch (家长轮换) 或购买 Lightning Lane 省去排队时间。</li>
+                            </ul>
+                        </td>
+                        <td class="price-col">$729.00</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🧱 乐高乐园</strong><br><span style="font-size:11px; color:var(--text-secondary);">LEGOLAND</span></td>
+                        <td>
+                            LEGOLAND California 单日门票
+                            <ul class="note-list">
+                                <li>2 张成人票 + 1 张儿童票</li>
+                                <li>重点游玩 Duplo Valley 得宝山谷</li>
+                            </ul>
+                        </td>
+                        <td><span class="status-tag tag-est">预估花费</span></td>
+                        <td>
+                            <ul class="note-list">
+                                <li>官网提前购买通常有 Discount/Promo，比现场买便宜 20% 以上。</li>
+                                <li>Duplo Valley 适合 3 岁宝宝放电，可准备一套备用衣服以便在喷水区游玩。</li>
+                            </ul>
+                        </td>
+                        <td class="price-col">$240.00</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🦁 圣地亚哥动物园</strong><br><span style="font-size:11px; color:var(--text-secondary);">San Diego Zoo</span></td>
+                        <td>
+                            San Diego Zoo 门票 (含观光巴士)
+                            <ul class="note-list">
+                                <li>2 张成人票 (3岁以下免费或需儿童票)</li>
+                                <li>含 35分钟 Guided Bus Tour & Skyfari 缆车</li>
+                            </ul>
+                        </td>
+                        <td><span class="status-tag tag-est">预估花费</span></td>
+                        <td>
+                            <ul class="note-list">
+                                <li>园区较大丘陵起伏，入园后<strong>优先乘坐 Guided Bus Tour</strong>，省力游览大半个园区后再针对性看大熊猫。</li>
+                            </ul>
+                        </td>
+                        <td class="price-col">$140.00</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🚢 航母与老灯塔</strong><br><span style="font-size:11px; color:var(--text-secondary);">Midway & Cabrillo</span></td>
+                        <td>
+                            USS Midway 门票 + Cabrillo 国家纪念碑
+                            <ul class="note-list">
+                                <li>USS Midway 成人门票 x 2</li>
+                                <li>Point Loma Cabrillo 按车收费门票</li>
+                            </ul>
+                        </td>
+                        <td><span class="status-tag tag-est">预估花费</span></td>
+                        <td>
+                            <ul class="note-list">
+                                <li>USS Midway 飞行甲板风大，请随身为宝宝带一件薄外套。</li>
+                                <li>若手头有美国国家公园年卡 (America the Beautiful Pass)，在老灯塔 (Cabrillo) 可直接免车费入场。</li>
+                            </ul>
+                        </td>
+                        <td class="price-col">$60.00</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- ==================== 移动端底部导航栏 ==================== -->
+<nav class="mobile-tabbar" id="mobile-tabbar">
+    <div class="mobile-tabbar-inner">
+        <button class="tabbar-btn active" id="tabbar-home" onclick="switchView('itinerary')">
+            <span class="tabbar-icon">🏠</span>
+            <span class="tabbar-label">首页</span>
+        </button>
+        <button class="tabbar-btn" id="tabbar-budget" onclick="switchView('budget')">
+            <span class="tabbar-icon">💰</span>
+            <span class="tabbar-label">明细汇总</span>
+        </button>
+        <button class="tabbar-btn" id="tabbar-credit" onclick="switchView('credit')">
+            <span class="tabbar-icon">🧮</span>
+            <span class="tabbar-label">Credit计算器</span>
+        </button>
+    </div>
+</nav>
+
+<script>
+    // ========== 1. 酒店内部消费菜单数据 ==========
+    const hotelCreditData = {
+        'intercontinental': {
+            name: 'InterContinental San Diego',
+            subtitle: '每天享有 $100 Property Credit（可用于餐厅、酒吧挂账及代客泊车等消费）',
+            categories: [
+                {
+                    title: 'Vistal Bar & Restaurant (海景主餐厅)',
+                    menuUrl: 'https://www.vistalsd.com/menu',
+                    menuLabel: '查看 Vistal 官方菜单/价目 →',
+                    items: [
+                        { name: 'Baja Fish Tacos (巴哈鱼塔可)', price: 25, desc: '本地特色新鲜捕捞鱼肉搭配特制酱汁' },
+                        { name: 'Vistal Wagyu Burger (和牛汉堡)', price: 26, desc: '搭配薯条，分量饱腹无压力' },
+                        { name: 'Pan-Seared Local Sea Bass (煎海鲈鱼)', price: 42, desc: '晚餐招牌主菜' },
+                        { name: 'Eggs Benedict Breakfast (班尼迪克蛋)', price: 24, desc: '美式经典早餐选择' },
+                        { name: 'Avocado Toast & Eggs (牛油果吐司)', price: 20, desc: '清爽健康早餐选择' },
+                        { name: 'Craft Cocktail (特调鸡尾酒)', price: 19, desc: 'Vistal 调酒师招牌系列' },
+                        { name: 'Draft Beer / Local IPA (精酿啤酒)', price: 10, desc: '圣地亚哥当地特色 IPA' }
+                    ]
+                },
+                {
+                    title: 'Garibaldi (地中海风情餐厅，位于同栋大楼)',
+                    menuUrl: 'https://www.garibaldisd.com/menus',
+                    menuLabel: '查看 Garibaldi 官方菜单/价目 →',
+                    items: [
+                        { name: 'Wood-Fired Branzino (柴烤地中海鲈鱼)', price: 38, desc: '明火烤制，招牌主菜' },
+                        { name: 'Mediterranean Mezze Board (地中海拼盘)', price: 28, desc: '鹰嘴豆泥、烤蔬菜与薄饼' },
+                        { name: 'Aperol Spritz (阿佩罗气泡酒)', price: 16, desc: '开胃特调鸡尾酒' }
+                    ]
+                },
+                {
+                    title: 'Layover Pool Bar & Lounge (4楼泳池露台吧)',
+                    menuUrl: 'https://www.ihg.com/intercontinental/hotels/us/en/san-diego/sanhb/hoteldetail/dining',
+                    menuLabel: '查看酒店官方餐饮页面 →',
+                    items: [
+                        { name: 'Poolside Fruit Platter (水果拼盘)', price: 16, desc: '适合宝宝的时令新鲜水果' },
+                        { name: 'Crispy Calamari (炸鱿鱼)', price: 22, desc: '泳池小食配塔塔酱' },
+                        { name: 'Frozen Piña Colada (冰霜椰林飘香)', price: 18, desc: '海边度假特饮' }
+                    ]
+                },
+                {
+                    title: '🧖 SPA / 按摩服务',
+                    note: true,
+                    noteText: '经查询，InterContinental San Diego 目前<strong>没有独立的酒店 SPA</strong>（酒店前台曾在评价中明确说明"我们很遗憾没有 Spa"）。酒店仅提供健身中心与泳池设施，如需按摩需前往附近合作机构，费用无法计入 $100 房账 Credit 抵扣。'
+                },
+                {
+                    title: 'Hotel Services & Parking (酒店设施与服务)',
+                    items: [
+                        { name: 'Valet Parking (代客泊车/日)', price: 65, desc: '挂房账可用 $100 Credit 自动抵扣' },
+                        { name: 'In-Room Breakfast Burrito (送餐卷饼)', price: 22, desc: '注：客房送餐另加服务费及小费' }
+                    ]
+                }
+            ]
+        },
+        'seabird': {
+            name: 'The Seabird Resort (Oceanside)',
+            subtitle: '每天享有 $100 Resort Credit（可用于 Piper、The Shore Room、The Shelter Club 及 Sunny\'s Spa 等消费）',
+            categories: [
+                {
+                    title: 'Piper (海景加州菜/早午餐/晚餐)',
+                    menuUrl: 'https://www.piperoceanside.com/menus/',
+                    menuLabel: '查看 Piper 官方菜单/价目 →',
+                    items: [
+                        { name: 'Pacific Breakfast Burrito (海滩早餐卷饼)', price: 22, desc: '配特制辣椒酱与新鲜薯块' },
+                        { name: 'Lemon Ricotta Pancakes (柠檬里科塔煎饼)', price: 20, desc: '蓬松甜品早餐（宝宝最爱）' },
+                        { name: 'Smoked Salmon Toast (烟熏三文鱼吐司)', price: 24, desc: '搭配酸豆与新鲜芝士' },
+                        { name: 'Fresh Cold-Pressed Juice (冷压鲜榨果汁)', price: 10, desc: '新鲜果汁' },
+                        { name: 'Specialty Latte / Cappuccino (精品咖啡)', price: 7, desc: '燕麦奶/牛奶可选' }
+                    ]
+                },
+                {
+                    title: 'The Shore Room (原 Rooftop Bar，日落海景鸡尾酒吧)',
+                    menuUrl: 'https://theseabirdresort.com/wp-content/uploads/2026/07/06175152/The-Shore-Room-Menu-Booklet-July-2026-WEB.pdf',
+                    menuLabel: '查看 The Shore Room 官方菜单 PDF →',
+                    items: [
+                        { name: 'Ahi Tuna Tartare (黄鳍金枪鱼塔塔)', price: 24, desc: '配牛油果与脆片' },
+                        { name: 'Wagyu Beef Sliders (和牛迷你汉堡)', price: 26, desc: '一份3个，极度饱腹' },
+                        { name: 'Sunset Signature Cocktail (日落特调)', price: 20, desc: '观赏太平洋日落绝佳搭配' },
+                        { name: 'Artisanal Flatbread (手工薄饼披萨)', price: 22, desc: '松露蘑菇或玛格丽特口味' }
+                    ]
+                },
+                {
+                    title: 'The Shelter Club (3楼泳池吧)',
+                    menuUrl: 'https://theseabirdresort.com/wp-content/uploads/2026/03/30171638/The-Shelter-Club-Menu-March-2026.pdf',
+                    menuLabel: '查看 The Shelter Club 官方菜单 PDF →',
+                    items: [
+                        { name: 'Poolside Burger & Fries (泳池汉堡薯条)', price: 24, desc: '经典泳池美式套餐' },
+                        { name: 'Shelter Club Salad (轻食沙拉)', price: 19, desc: '清爽午间选择' },
+                        { name: 'Frozen Mimosa (冰霜含羞草)', price: 16, desc: '泳池特调气泡饮' }
+                    ]
+                },
+                {
+                    title: "🧖 Sunny's Spa & Beauty Lounge（可挂房账，能用 $100 Credit 抵扣）",
+                    menuUrl: 'https://theseabirdresort.com/spa/',
+                    menuLabel: '查看官方 Spa 介绍与预约 →',
+                    items: [
+                        { name: 'Aescape 机器人按摩 (15分钟)', price: 55, desc: 'AI 智能按摩，可自定义力度与部位' },
+                        { name: 'Aescape 机器人按摩 (60分钟)', price: 220, desc: 'AI 智能全身按摩' },
+                        { name: 'Shiftwave 深层放松 (25分钟)', price: 65, desc: '便携式声波共振放松疗程' },
+                        { name: 'Shiftwave 深层放松 (50分钟)', price: 125, desc: '可加钟至客房内体验' },
+                        { name: '传统按摩 (60分钟，参考价)', price: 215, desc: '价格及项目以官方预约系统当日显示为准，另加约22%服务费' }
+                    ]
+                },
+                {
+                    title: 'Resort Services & Parking (度假村服务与泊车)',
+                    items: [
+                        { name: 'Overnight Valet Parking (夜间代客泊车)', price: 55, desc: '挂房账由前台抵扣' },
+                        { name: 'Beach Cabana Daily Rental (遮阳凉亭租用)', price: 75, desc: '含专人海滩服务' }
+                    ]
+                }
+            ]
+        }
+    };
+
+
+    let activeHotel = 'intercontinental';
+    let currentCart = [];
+
+    // ========== 2. 视图切换逻辑（统一入口，修复返回主页不显示内容 & 支持手机手势返回） ==========
+    const VIEW_IDS = {
+        itinerary: 'itinerary-view',
+        budget: 'budget-planner-view',
+        credit: 'credit-planner-view'
+    };
+    let currentView = 'itinerary';
+
+    function switchView(viewName, options) {
+        options = options || {};
+        if (!VIEW_IDS[viewName]) viewName = 'itinerary';
+
+        // 1) 切换三个视图的 active 状态（保证任何时候有且只有一个是激活的）
+        Object.keys(VIEW_IDS).forEach(function (key) {
+            var el = document.getElementById(VIEW_IDS[key]);
+            if (!el) return;
+            if (key === viewName) {
+                el.classList.add('active');
+            } else {
+                el.classList.remove('active');
+            }
+        });
+
+        currentView = viewName;
+
+        // 2) 强制触发一次重排/重绘，规避部分移动端浏览器在 display:none <-> block
+        //    切换时（尤其配合 backdrop-filter / sticky 元素）出现的“内容不重绘”问题
+        var activeEl = document.getElementById(VIEW_IDS[viewName]);
+        if (activeEl) {
+            activeEl.style.display = 'none';
+            void activeEl.offsetHeight; // 强制 reflow
+            activeEl.style.display = '';
+        }
+
+        // 3) 同步底部导航栏高亮状态
+        var tabMap = { itinerary: 'tabbar-home', budget: 'tabbar-budget', credit: 'tabbar-credit' };
+        Object.keys(tabMap).forEach(function (key) {
+            var btn = document.getElementById(tabMap[key]);
+            if (!btn) return;
+            btn.classList.toggle('active', key === viewName);
+        });
+
+        // 4) 浏览器历史管理：让手机的手势/物理返回键也能在应用内正确返回，
+        //    而不是直接退出整个页面导致“主页内容看不到”
+        if (!options.fromPopstate) {
+            var state = { view: viewName, hotelId: options.hotelId || activeHotel };
+            if (options.replace) {
+                history.replaceState(state, '', '#' + viewName);
+            } else {
+                history.pushState(state, '', '#' + viewName);
+            }
+        }
+
+        if (viewName === 'credit') {
+            switchHotelTab(options.hotelId || activeHotel);
+        }
+
+        window.scrollTo({ top: 0, behavior: options.fromPopstate ? 'auto' : 'smooth' });
+    }
+
+    // 监听浏览器 / 手机手势的“返回”“前进”，保持应用内导航同步
+    window.addEventListener('popstate', function (e) {
+        var state = e.state || { view: 'itinerary' };
+        switchView(state.view, { fromPopstate: true, hotelId: state.hotelId });
+    });
+
+    // 兼容旧的调用方式（保留原函数名，内部统一走 switchView）
+    function openHotelCredit(hotelId) {
+        switchView('credit', { hotelId: hotelId });
+    }
+
+    function openBudgetSummary() {
+        switchView('budget');
+    }
+
+    function backToItinerary() {
+        switchView('itinerary');
+    }
+
+    function switchHotelTab(hotelId) {
+        activeHotel = hotelId;
+        
+        // 更新 Tab 样式
+        document.getElementById('tab-intercontinental').className = `tab-btn ${hotelId === 'intercontinental' ? 'active' : ''}`;
+        document.getElementById('tab-seabird').className = `tab-btn ${hotelId === 'seabird' ? 'active' : ''}`;
+
+        // 更新标题与副标题
+        const hotel = hotelCreditData[hotelId];
+        document.getElementById('credit-hotel-title').innerText = hotel.name;
+        document.getElementById('credit-hotel-subtitle').innerHTML = hotel.subtitle;
+
+        // 渲染菜单
+        renderCreditMenu(hotel);
+        resetCart();
+    }
+
+    function renderCreditMenu(hotel) {
+        const container = document.getElementById('credit-menu-container');
+        container.innerHTML = '';
+
+        hotel.categories.forEach(cat => {
+            const catDiv = document.createElement('div');
+            catDiv.className = 'menu-section';
+
+            const menuLinkHtml = cat.menuUrl
+                ? `<a href="${cat.menuUrl}" target="_blank" rel="noopener noreferrer" class="menu-official-link">${cat.menuLabel || '查看官方菜单/价目 →'}</a>`
+                : '';
+
+            if (cat.note) {
+                catDiv.innerHTML = `
+                    <div class="menu-cat-title">${cat.title}</div>
+                    ${menuLinkHtml}
+                    <div class="menu-note-box">${cat.noteText || ''}</div>
+                `;
+                container.appendChild(catDiv);
+                return;
+            }
+
+            let itemsHtml = cat.items.map(item => `
+                <div class="menu-item-row">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">${item.name}</div>
+                        <div class="menu-item-desc">${item.desc}</div>
+                        <div class="menu-item-price">$${item.price.toFixed(2)}</div>
+                    </div>
+                    <button class="add-btn" onclick="addToCart('${escapeQuotes(item.name)}', ${item.price})">+ 添加</button>
+                </div>
+            `).join('');
+
+            catDiv.innerHTML = `
+                <div class="menu-cat-title">${cat.title}</div>
+                ${menuLinkHtml}
+                <div>${itemsHtml}</div>
+            `;
+            container.appendChild(catDiv);
+        });
+
+    }
+
+    function escapeQuotes(str) {
+        return str.replace(/'/g, "\\'");
+    }
+
+    // ========== 3. $100 Credit 计算器逻辑 ==========
+    function addToCart(name, price) {
+        currentCart.push({ name, price });
+        updateCartUI();
+    }
+
+    function removeFromCart(index) {
+        currentCart.splice(index, 1);
+        updateCartUI();
+    }
+
+    function resetCart() {
+        currentCart = [];
+        updateCartUI();
+    }
+
+    function updateCartUI() {
+        const cartItemsContainer = document.getElementById('cart-items');
+        if (currentCart.length === 0) {
+            cartItemsContainer.innerHTML = '<p style="text-align:center; color:#8e8e93; font-size:12px; padding:20px 0;">点击左侧菜单项目的“+ 添加”即可自动凑单计算</p>';
+        } else {
+            cartItemsContainer.innerHTML = currentCart.map((item, idx) => `
+                <div class="cart-item">
+                    <span class="cart-item-name">${item.name}</span>
+                    <div class="cart-item-right">
+                        <span class="cart-item-price">$${item.price.toFixed(2)}</span>
+                        <button class="del-btn" onclick="removeFromCart(${idx})">&times;</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        const subtotal = currentCart.reduce((sum, item) => sum + item.price, 0);
+        const taxAndTip = subtotal * 0.28; // 预估税与小费 ~28%
+        const total = subtotal + taxAndTip;
+
+        document.getElementById('cart-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+        document.getElementById('cart-tax-tip').innerText = `$${taxAndTip.toFixed(2)}`;
+        document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+
+        // 进度条与额度状态提醒
+        const percent = Math.min(Math.round((total / 100) * 100), 100);
+        const progressBar = document.getElementById('progress-bar');
+        document.getElementById('progress-percent').innerText = `${percent}%`;
+        progressBar.style.width = `${percent}%`;
+
+        const statusTip = document.getElementById('credit-status-tip');
+        if (total === 0) {
+            progressBar.style.backgroundColor = '#34c759';
+            statusTip.innerText = '还可使用 $100.00 额度';
+            statusTip.style.color = 'var(--text-secondary)';
+        } else if (total <= 100) {
+            const diff = (100 - total).toFixed(2);
+            progressBar.style.backgroundColor = '#34c759';
+            statusTip.innerText = `还差 $${diff} 刚好满 $100 额度！`;
+            statusTip.style.color = '#34c759';
+        } else {
+            const over = (total - 100).toFixed(2);
+            progressBar.style.backgroundColor = '#ff9500';
+            statusTip.innerText = `已超出 $${over} (多出部分需自费)`;
+            statusTip.style.color = '#ff9500';
+        }
+    }
+
+    // ========== 4. 原有折叠组件逻辑 ==========
+    function toggleCollapse(header) {
+        var body = header.nextElementSibling;
+        var collapsed = body.classList.contains('collapsed');
+        if (collapsed) {
+            body.classList.remove('collapsed');
+            header.classList.remove('collapsed');
+            body.style.maxHeight = body.scrollHeight + 'px';
+            setTimeout(function () {
+                if (!body.classList.contains('collapsed')) body.style.maxHeight = 'none';
+            }, 380);
+        } else {
+            body.style.maxHeight = body.scrollHeight + 'px';
+            requestAnimationFrame(function () {
+                requestAnimationFrame(function () {
+                    body.classList.add('collapsed');
+                    header.classList.add('collapsed');
+                    body.style.maxHeight = '0px';
+                });
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.collapsible-body').forEach(function (body) {
+            body.style.maxHeight = body.scrollHeight + 'px';
+            setTimeout(function () { body.style.maxHeight = 'none'; }, 400);
+        });
+
+        // 初始化历史记录，确保后续手势/物理返回键能被 popstate 正确捕获
+        history.replaceState({ view: 'itinerary', hotelId: activeHotel }, '', '#itinerary');
+    });
+</script>
+
+</body>
+</html>
