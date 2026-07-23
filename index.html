@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>San Diego & Disneyland • 行程与酒店 Credit 规划</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <style>
     :root {
         --bg-body: #f5f5f7;
@@ -783,11 +784,105 @@
     }
     .collapsible-body.collapsed { opacity: 0; }
 
-    /* ---------- Route map ---------- */
+    /* ---------- Route map (real map) ---------- */
     .map-card { padding: 24px 20px 26px; }
-    .map-subtitle { text-align: center; font-size: 12px; color: var(--text-secondary); margin-top: -10px; margin-bottom: 18px; }
-    .route-svg-wrap { max-width: 460px; margin: 0 auto 22px; }
-    .route-svg-wrap svg { width: 100%; height: auto; display: block; }
+    .map-subtitle { text-align: center; font-size: 12px; color: var(--text-secondary); margin-top: -10px; margin-bottom: 16px; }
+
+    .map-day-legend {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px 16px;
+        margin-bottom: 16px;
+    }
+    .map-day-chip {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11.5px;
+        font-weight: 700;
+        color: var(--text-secondary);
+        background: rgba(0,0,0,0.03);
+        padding: 5px 11px 5px 8px;
+        border-radius: 20px;
+    }
+    .map-day-chip .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    .real-map-wrap {
+        position: relative;
+        width: 100%;
+        height: 480px;
+        border-radius: 20px;
+        overflow: hidden;
+        margin-bottom: 8px;
+        border: 1px solid rgba(0,0,0,0.08);
+        box-shadow: 0 10px 34px -8px rgba(0,0,0,0.14);
+        background: #eef1f3;
+    }
+    #route-map { width: 100%; height: 100%; }
+    .map-fallback-note {
+        display: none;
+        position: absolute;
+        inset: 0;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 12px;
+        color: var(--text-secondary);
+        padding: 20px;
+        background: #eef1f3;
+    }
+
+    .map-source-note {
+        text-align: center;
+        font-size: 10.5px;
+        color: var(--text-secondary);
+        opacity: 0.75;
+        margin-bottom: 20px;
+    }
+
+    /* Custom teardrop pin rendered via Leaflet divIcon */
+    .route-pin { position: relative; width: 34px; height: 44px; }
+    .route-pin .pin-body {
+        position: absolute;
+        top: 0; left: 0;
+        width: 32px; height: 32px;
+        border-radius: 50% 50% 50% 0;
+        transform: rotate(-45deg);
+        border: 2.5px solid #ffffff;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.28);
+    }
+    .route-pin .pin-emoji {
+        position: absolute;
+        top: 4px; left: 0;
+        width: 32px;
+        text-align: center;
+        font-size: 15px;
+        line-height: 32px;
+        transform: rotate(45deg);
+    }
+    .route-pin.pin-day1 .pin-body { background: var(--d1); }
+    .route-pin.pin-day2 .pin-body { background: var(--d2); }
+    .route-pin.pin-day3 .pin-body { background: var(--d3); }
+    .route-pin.pin-day4 .pin-body { background: var(--d4); }
+    .route-pin.pin-day5 .pin-body { background: var(--d5); }
+
+    /* Leaflet chrome restyled to match Apple aesthetic */
+    .leaflet-popup-content-wrapper {
+        border-radius: 14px;
+        box-shadow: 0 8px 28px -6px rgba(0,0,0,0.22);
+    }
+    .leaflet-popup-content { margin: 12px 14px; }
+    .leaflet-popup-tip { box-shadow: 0 3px 8px rgba(0,0,0,0.12); }
+    .map-popup-title { font-weight: 700; font-size: 13px; color: var(--text-primary); margin-bottom: 2px; }
+    .map-popup-desc { font-size: 11.5px; color: var(--text-secondary); margin-bottom: 7px; }
+    .map-popup-link { font-size: 11.5px; font-weight: 700; text-decoration: none; }
+    .leaflet-control-attribution {
+        font-size: 9px !important;
+        background: rgba(255,255,255,0.75) !important;
+        backdrop-filter: blur(6px);
+    }
+    .leaflet-control-zoom a { color: var(--text-primary) !important; }
 
     .map-legend-grid {
         display: grid;
@@ -1084,6 +1179,7 @@
 
     @media (max-width: 768px) {
         .map-legend-grid { grid-template-columns: repeat(2, 1fr); }
+        .real-map-wrap { height: 380px; }
         .container { padding: 0 12px; margin-top: 16px; }
         .master-timeline-card { padding: 18px 14px 16px; }
         .credit-header-card, .budget-summary-card, .menu-section { padding: 16px; }
@@ -1705,73 +1801,23 @@
         <!-- 全程路线地图 -->
         <div class="master-timeline-card map-card">
             <div class="master-timeline-title">🗺️ 全程路线地图</div>
-            <p class="map-subtitle">圣地亚哥 ↔ 阿纳海姆 ↔ 奥欣赛德 · 示意图</p>
+            <p class="map-subtitle">圣地亚哥 ↔ 阿纳海姆 ↔ 奥欣赛德 · 真实地图 · 可缩放拖动</p>
 
-            <div class="route-svg-wrap">
-                <svg viewBox="0 0 640 760" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <marker id="arrowD3" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-                            <path d="M0,0 L8,4 L0,8 Z" fill="var(--d3)"/>
-                        </marker>
-                        <marker id="arrowD5" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-                            <path d="M0,0 L8,4 L0,8 Z" fill="var(--d5)"/>
-                        </marker>
-                        <linearGradient id="oceanFade" x1="0" y1="0" x2="1" y2="0">
-                            <stop offset="0%" stop-color="#cfe8fb"/>
-                            <stop offset="100%" stop-color="#e6f3fc"/>
-                        </linearGradient>
-                    </defs>
-
-                    <!-- 陆地底色 -->
-                    <rect x="0" y="0" width="640" height="760" fill="#f3f2ee"/>
-
-                    <!-- 海岸线 & 海洋 -->
-                    <path d="M0,0 L300,0 C250,80 190,150 170,220 C150,290 130,340 140,400 C150,460 190,520 180,580 C175,610 165,640 160,700 L160,760 L0,760 Z" fill="url(#oceanFade)"/>
-                    <path d="M300,0 C250,80 190,150 170,220 C150,290 130,340 140,400 C150,460 190,520 180,580 C175,610 165,640 160,700 L160,760" fill="none" stroke="#b8dcf2" stroke-width="2"/>
-
-                    <!-- 指北针 -->
-                    <g transform="translate(590,40)" opacity="0.55">
-                        <circle r="18" fill="#ffffff" stroke="#d0d0d5"/>
-                        <path d="M0,-12 L4,0 L0,12 L-4,0 Z" fill="#8a8a8f"/>
-                        <text x="0" y="-22" text-anchor="middle" font-size="10" font-weight="700" fill="#8a8a8f">N</text>
-                    </g>
-
-                    <!-- Day1-2 市区打车环线 -->
-                    <path d="M175,600 C155,585 155,565 175,552 C195,565 195,585 175,600" fill="none" stroke="var(--d2)" stroke-width="3" stroke-dasharray="3 4" />
-                    <text x="140" y="575" font-size="9.5" font-weight="700" fill="var(--d2)" text-anchor="middle">D1·D2</text>
-
-                    <!-- Day3 出程：圣地亚哥 → 阿纳海姆 -->
-                    <path d="M235,610 C300,470 360,260 420,130" fill="none" stroke="var(--d3)" stroke-width="4" marker-end="url(#arrowD3)"/>
-                    <text x="345" y="330" font-size="11" font-weight="700" fill="var(--d3)" transform="rotate(-58 345 330)">Day 3 · ~85 mi</text>
-
-                    <!-- Day3 出程：阿纳海姆 → 奥欣赛德 -->
-                    <path d="M405,145 C320,180 200,220 158,275" fill="none" stroke="var(--d3)" stroke-width="4" marker-end="url(#arrowD3)"/>
-                    <text x="290" y="185" font-size="11" font-weight="700" fill="var(--d3)" transform="rotate(20 290 185)">~58 mi</text>
-
-                    <!-- Day4 乐高/海滩 局部小环 -->
-                    <path d="M120,300 C90,320 90,350 120,365 C150,350 150,320 120,300" fill="none" stroke="var(--d4)" stroke-width="3" stroke-dasharray="3 4"/>
-                    <text x="72" y="335" font-size="9.5" font-weight="700" fill="var(--d4)" text-anchor="middle">Day 4</text>
-
-                    <!-- Day5 返程：奥欣赛德 → 圣地亚哥 -->
-                    <path d="M148,315 C110,430 130,540 200,615" fill="none" stroke="var(--d5)" stroke-width="4" marker-end="url(#arrowD5)"/>
-                    <text x="105" y="470" font-size="11" font-weight="700" fill="var(--d5)" transform="rotate(78 105 470)">Day 5 返程</text>
-
-                    <!-- Hub: 圣地亚哥市区 & 海湾 -->
-                    <circle cx="210" cy="630" r="42" fill="#ffffff" stroke="var(--d1)" stroke-width="3"/>
-                    <text x="210" y="622" text-anchor="middle" font-size="22">🌉</text>
-                    <text x="210" y="642" text-anchor="middle" font-size="9" font-weight="700" fill="var(--text-primary)">圣地亚哥市区</text>
-
-                    <!-- Hub: 奥欣赛德 & 卡尔斯巴德 -->
-                    <circle cx="150" cy="290" r="38" fill="#ffffff" stroke="var(--d4)" stroke-width="3"/>
-                    <text x="150" y="283" text-anchor="middle" font-size="20">🏖️</text>
-                    <text x="150" y="302" text-anchor="middle" font-size="8.5" font-weight="700" fill="var(--text-primary)">奥欣赛德/卡尔斯巴德</text>
-
-                    <!-- Hub: 阿纳海姆 · 迪士尼 -->
-                    <circle cx="430" cy="115" r="40" fill="#ffffff" stroke="var(--d3)" stroke-width="3"/>
-                    <text x="430" y="108" text-anchor="middle" font-size="22">🏰</text>
-                    <text x="430" y="128" text-anchor="middle" font-size="9" font-weight="700" fill="var(--text-primary)">阿纳海姆·迪士尼</text>
-                </svg>
+            <div class="map-day-legend">
+                <span class="map-day-chip"><span class="dot" style="background:var(--d1)"></span>Day 1 · 抵达入住</span>
+                <span class="map-day-chip"><span class="dot" style="background:var(--d2)"></span>Day 2 · 市区游览</span>
+                <span class="map-day-chip"><span class="dot" style="background:var(--d3)"></span>Day 3 · 迪士尼转场</span>
+                <span class="map-day-chip"><span class="dot" style="background:var(--d4)"></span>Day 4 · 乐高与海滩</span>
+                <span class="map-day-chip"><span class="dot" style="background:var(--d5)"></span>Day 5 · 返程</span>
             </div>
+
+            <div class="real-map-wrap">
+                <div id="route-map"></div>
+                <div class="map-fallback-note" id="route-map-fallback">
+                    地图加载需要网络连接。<br>请检查网络后刷新页面。
+                </div>
+            </div>
+            <p class="map-source-note">底图数据 © OpenStreetMap contributors · © CARTO　·　点击图钉查看详情</p>
 
             <div class="map-legend-grid">
                 <div class="map-hub-card">
@@ -2090,6 +2136,7 @@
     </div>
 </nav>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
     // ========== 1. 酒店内部消费菜单数据 ==========
     const hotelCreditData = {
@@ -2266,6 +2313,14 @@
             switchHotelTab(options.hotelId || activeHotel);
         }
 
+        if (viewName === 'itinerary') {
+            // 地图容器在 display:none 状态下无法正确计算尺寸，切回时需重新校正
+            setTimeout(function () {
+                if (typeof initRouteMap === 'function') initRouteMap();
+                if (window._routeMap) window._routeMap.invalidateSize();
+            }, 260);
+        }
+
         window.scrollTo({ top: 0, behavior: options.fromPopstate ? 'auto' : 'smooth' });
     }
 
@@ -2439,6 +2494,86 @@
         }
     }
 
+    // ========== 5. 全程路线真实地图（Leaflet + 真实底图）==========
+    var dayColors = { 1: '#0A84FF', 2: '#00B4B0', 3: '#FF375F', 4: '#FF9F0A', 5: '#AF52DE' };
+
+    var routeStops = [
+        { name: 'San Diego International Airport (SAN)', emoji: '✈️', day: 1, lat: 32.7338, lng: -117.1933, desc: 'Day 1 抵达 · Day 5 还车返程' },
+        { name: 'InterContinental San Diego', emoji: '🏨', day: 1, lat: 32.7076, lng: -117.1611, desc: 'Day 1–2 入住' },
+        { name: 'USS Midway Museum', emoji: '🚢', day: 2, lat: 32.7137, lng: -117.1755, desc: 'Day 2 上午 · 中途岛航母博物馆' },
+        { name: 'Little Italy San Diego', emoji: '🍝', day: 2, lat: 32.7247, lng: -117.1686, desc: 'Day 2 晚餐 · 小意大利' },
+        { name: 'Disneyland Park Anaheim', emoji: '🏰', day: 3, lat: 33.8121, lng: -117.9190, desc: 'Day 3 全天畅玩' },
+        { name: 'The Seabird Resort Oceanside', emoji: '🏖️', day: 3, lat: 33.1959, lng: -117.3795, desc: 'Day 3–5 入住' },
+        { name: 'LEGOLAND California', emoji: '🧱', day: 4, lat: 33.1263, lng: -117.3106, desc: 'Day 4 上午' },
+        { name: 'Oceanside Pier', emoji: '🎡', day: 4, lat: 33.1958, lng: -117.3826, desc: 'Day 4 傍晚' },
+        { name: 'Old Point Loma Lighthouse', emoji: '🗼', day: 5, lat: 32.6722, lng: -117.2417, desc: 'Day 5 上午' },
+        { name: 'San Diego Zoo', emoji: '🦁', day: 5, lat: 32.7353, lng: -117.1490, desc: 'Day 5 中午' }
+    ];
+
+    var routeLines = [
+        { day: 1, coords: [[32.7338, -117.1933], [32.722, -117.178], [32.7076, -117.1611]] },
+        { day: 2, coords: [[32.7076, -117.1611], [32.7137, -117.1755], [32.7247, -117.1686], [32.7076, -117.1611]], dashed: true },
+        { day: 3, coords: [[32.7338, -117.1933], [33.0, -117.55], [33.4, -117.75], [33.8121, -117.9190]] },
+        { day: 3, coords: [[33.8121, -117.9190], [33.55, -117.65], [33.35, -117.5], [33.1959, -117.3795]] },
+        { day: 4, coords: [[33.1959, -117.3795], [33.1263, -117.3106], [33.1958, -117.3826], [33.1959, -117.3795]], dashed: true },
+        { day: 5, coords: [[33.1959, -117.3795], [32.9, -117.35], [32.75, -117.28], [32.6722, -117.2417], [32.7353, -117.1490], [32.7338, -117.1933]] }
+    ];
+
+    function initRouteMap() {
+        if (window._routeMapInited) return;
+        if (typeof L === 'undefined') {
+            var fb = document.getElementById('route-map-fallback');
+            if (fb) fb.style.display = 'flex';
+            return;
+        }
+        var mapEl = document.getElementById('route-map');
+        if (!mapEl) return;
+        window._routeMapInited = true;
+
+        var map = L.map('route-map', { scrollWheelZoom: false, zoomControl: true });
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap &copy; CARTO',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+
+        var bounds = [];
+
+        routeLines.forEach(function (r) {
+            L.polyline(r.coords, {
+                color: dayColors[r.day],
+                weight: 4,
+                opacity: 0.88,
+                lineJoin: 'round',
+                lineCap: 'round',
+                dashArray: r.dashed ? '2 9' : null
+            }).addTo(map);
+        });
+
+        routeStops.forEach(function (s) {
+            var icon = L.divIcon({
+                className: '',
+                html: '<div class="route-pin pin-day' + s.day + '"><div class="pin-body"></div><div class="pin-emoji">' + s.emoji + '</div></div>',
+                iconSize: [34, 44],
+                iconAnchor: [17, 42],
+                popupAnchor: [0, -38]
+            });
+            var marker = L.marker([s.lat, s.lng], { icon: icon }).addTo(map);
+            var appleUrl = 'https://maps.apple.com/?q=' + encodeURIComponent(s.name);
+            marker.bindPopup(
+                '<div class="map-popup-title">' + s.emoji + ' ' + s.name + '</div>' +
+                '<div class="map-popup-desc">' + s.desc + '</div>' +
+                '<a class="map-popup-link" style="color:' + dayColors[s.day] + '" href="' + appleUrl + '" target="_blank" rel="noopener noreferrer">在 Apple 地图中打开 ↗</a>'
+            );
+            bounds.push([s.lat, s.lng]);
+        });
+
+        map.fitBounds(bounds, { padding: [28, 28] });
+
+        window._routeMap = map;
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.collapsible-body').forEach(function (body) {
             body.style.maxHeight = body.scrollHeight + 'px';
@@ -2447,6 +2582,9 @@
 
         // 初始化历史记录，确保后续手势/物理返回键能被 popstate 正确捕获
         history.replaceState({ view: 'itinerary', hotelId: activeHotel }, '', '#itinerary');
+
+        // 初始化全程路线真实地图
+        initRouteMap();
     });
 </script>
 
