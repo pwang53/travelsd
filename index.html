@@ -1642,7 +1642,7 @@
                         </div>
                         <p class="node-address">📍 1313 Disneyland Dr, Anaheim, CA 92802</p>
                         <p class="node-desc">专为幼童设计的 Fantasyland（小飞侠、旋转木马、小小世界）非常适合 3 岁宝宝！下午可在推车上安排宝宝午睡休整，晚上看城堡灯光秀。</p>
-                        <a href="https://maps.apple.com/?q=Disneyland+Park+Anaheim" target="_blank" class="map-btn">在 Apple 地图中打开 ↗</a>
+                        <a href="https://maps.apple.com/?q=Disneyland+Park+Anaheim" target="_blank" class="map-btn">在 Apple 地图中打开 ↗</a><br><a class="map-btn" onclick="switchView('disney')" style="cursor:pointer;">查看迪士尼游玩专区 →</a>
                     </div>
 
                     <div class="drive-segment">
@@ -2116,6 +2116,86 @@
         </div>
     </section>
 
+    <section id="disney-view" class="view-page">
+        <div class="credit-header-card">
+            <div class="credit-top-bar">
+                <button class="header-nav-btn" onclick="backToItinerary()" style="background:#ffffff; color:var(--text-primary); border:1px solid #d0d0d5;">
+                    ← 返回行程总览
+                </button>
+                <div style="font-size:14px; font-weight:800; color:var(--text-secondary);">
+                    Day 3 · 11月21日 周六
+                </div>
+            </div>
+            <div style="margin-top:16px;">
+                <h2 style="font-size:22px; font-weight:800;">🏰 迪士尼游玩专区</h2>
+                <p style="font-size:13px; color:var(--text-secondary); margin-top:2px;">
+                    Disneyland Park · Henry 95 厘米 · 快速通行已买 · 一家人不分开玩
+                </p>
+            </div>
+        </div>
+
+        <div class="budget-summary-card">
+            <h3 style="font-size:16px; font-weight:800; margin-bottom:8px;">📋 当天关键信息</h3>
+            <ul class="note-list">
+                <li>开园 <strong>8:00 – 24:00</strong>；圣诞巡游 <strong>3:15 / 5:30</strong> 两场；烟花 <strong>9:30</strong>（主街看完会下“雪”）；Fantasmic! <strong>9:00 / 10:30</strong>。</li>
+                <li>圣地亚哥 <strong>6:30 出发</strong>，车程约 1.5–2 小时；停车约 <strong>$35/天</strong>；推车必备（园里租约 $18/天）。</li>
+                <li><strong>Henry 95 厘米</strong>：40 英寸以上的太空山、雷山、蒂安娜漂流、星战飞船都玩不了；能玩的刺激项目只有卡通城小过山车（35 英寸）和 Autopia 小汽车（32 英寸，坐副驾）。</li>
+                <li>门票提醒：4 张票都要在 App 里确认是 <strong>11/21 Disneyland Park</strong> 的预约（目前只确认了第 2 张）；Weixuan 手机上也要绑票：My Tickets &amp; Passes → + → Link Tickets &amp; Passes，扫码或输票号。</li>
+            </ul>
+        </div>
+
+        <div class="budget-summary-card">
+            <h3 style="font-size:16px; font-weight:800;">🗓️ 三套方案对照表</h3>
+            <div class="table-scroll-wrap">
+            <table class="budget-table">
+                <thead>
+                    <tr><th>时间</th><th>方案 A：慢游 + 快速通行 ⭐推荐</th><th>方案 B：均衡 + 快速通行</th><th>方案 C：刷满快速通行</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>6:30</strong></td><td>从圣地亚哥出发</td><td>从圣地亚哥出发</td><td>从圣地亚哥出发</td></tr>
+                    <tr><td><strong>8:00 进园</strong></td><td>先约小飞侠 → 排加勒比海盗 → 丛林巡航</td><td>先约小飞侠 → 梦幻乐园黑暗骑乘：爱丽丝、匹诺曹、托德先生、白雪公主</td><td>先约小飞侠 → 排加勒比海盗，刷完马上约鬼屋</td></tr>
+                    <tr><td><strong>10:30–12:00</strong></td><td>梦幻乐园：小飞象、旋转木马、疯帽茶杯；小小世界（快速通行或排队）</td><td>小小世界（快速通行）→ 鬼屋圣诞版（快速通行）→ 坐铁路环园一圈</td><td>按预约连刷：鬼屋 → 米奇米妮铁路 → 巴斯光年</td></tr>
+                    <tr><td><strong>12:00–13:00</strong></td><td>手机点餐吃午饭</td><td>手机点餐吃午饭</td><td>手机点餐，边吃边约下一个</td></tr>
+                    <tr><td><strong>13:00–15:00</strong></td><td>Henry 午睡 / 园里休息</td><td>卡通城：米奇家合影、罗杰兔（快速通行）、小过山车（排队）</td><td>卡通城：小过山车（排队）+ 米奇家 + 补小飞象、旋转木马</td></tr>
+                    <tr><td><strong>15:15</strong></td><td>圣诞巡游（提前 20 分钟占位）</td><td>圣诞巡游</td><td>圣诞巡游</td></tr>
+                    <tr><td><strong>15:45–17:30</strong></td><td>卡通城：米奇家合影、罗杰兔（快速通行）、小过山车（排队）</td><td>加勒比海盗 → 丛林巡航 → 大街上逛逛拍照</td><td>刷剩余快速通行：罗杰兔、Autopia、小小世界</td></tr>
+                    <tr><td><strong>17:30–19:00</strong></td><td>吃晚饭；米奇米妮铁路（快速通行）</td><td>吃晚饭；巴斯光年（快速通行）、Autopia（快速通行）</td><td>吃晚饭；丛林巡航</td></tr>
+                    <tr><td><strong>19:00–21:00</strong></td><td>巴斯光年（快速通行）、Autopia（快速通行），自由活动</td><td>补漏项目 + 拍照</td><td>自由刷排队项目</td></tr>
+                    <tr><td><strong>21:00</strong></td><td>—</td><td>第一场 Fantasmic!</td><td>—</td></tr>
+                    <tr><td><strong>21:30</strong></td><td>主街看烟花，看完离园</td><td>看烟花</td><td>看烟花</td></tr>
+                    <tr><td><strong>22:00 后</strong></td><td>开车回 Oceanside 酒店</td><td>开车回 Oceanside 酒店</td><td>开车回 Oceanside 酒店</td></tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <div class="budget-summary-card">
+            <h3 style="font-size:16px; font-weight:800;">⚡ 快速通行预约顺序（Henry 能用的 7 个）</h3>
+            <div class="table-scroll-wrap">
+            <table class="budget-table">
+                <thead>
+                    <tr><th>顺序</th><th>项目</th><th>为什么这个顺序</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>1</strong></td><td>小飞侠</td><td>最抢手，上午就约满</td></tr>
+                    <tr><td><strong>2</strong></td><td>鬼屋圣诞版</td><td>圣诞季最热门</td></tr>
+                    <tr><td><strong>3</strong></td><td>米奇米妮铁路</td><td>新热门，下午难约</td></tr>
+                    <tr><td><strong>4</strong></td><td>巴斯光年</td><td>全天都好约</td></tr>
+                    <tr><td><strong>5</strong></td><td>罗杰兔转转车</td><td>卡通城顺路刷</td></tr>
+                    <tr><td><strong>6</strong></td><td>Autopia 小汽车</td><td>下午约就行</td></tr>
+                    <tr><td><strong>7</strong></td><td>小小世界</td><td>全天好约，排队也不长，放最后</td></tr>
+                </tbody>
+            </table>
+            </div>
+            <ul class="note-list" style="margin-top:12px;">
+                <li>一次约一个，刷完马上约下一个；约到的时间超过 2 小时，2 小时一到就能再约一个。</li>
+                <li>每个项目每天只能用一次快速通行，约好后 1 小时内要用。</li>
+                <li>小过山车、加勒比海盗、丛林巡航没有快速通道，趁早上人少排掉。</li>
+                <li>不分开玩，太空山、雷山、蒂安娜、星战飞船不在表里。</li>
+            </ul>
+        </div>
+    </section>
+
 </div>
 
 <!-- ==================== 移动端底部导航栏 ==================== -->
@@ -2124,6 +2204,10 @@
         <button class="tabbar-btn active" id="tabbar-home" onclick="switchView('itinerary')">
             <span class="tabbar-icon">🏠</span>
             <span class="tabbar-label">首页</span>
+        </button>
+        <button class="tabbar-btn" id="tabbar-disney" onclick="switchView('disney')">
+            <span class="tabbar-icon">🏰</span>
+            <span class="tabbar-label">迪士尼游玩</span>
         </button>
         <button class="tabbar-btn" id="tabbar-budget" onclick="switchView('budget')">
             <span class="tabbar-icon">💰</span>
@@ -2259,6 +2343,7 @@
     // ========== 2. 视图切换逻辑（统一入口，修复返回主页不显示内容 & 支持手机手势返回） ==========
     const VIEW_IDS = {
         itinerary: 'itinerary-view',
+        disney: 'disney-view',
         budget: 'budget-planner-view',
         credit: 'credit-planner-view'
     };
@@ -2291,7 +2376,7 @@
         }
 
         // 3) 同步底部导航栏高亮状态
-        var tabMap = { itinerary: 'tabbar-home', budget: 'tabbar-budget', credit: 'tabbar-credit' };
+        var tabMap = { itinerary: 'tabbar-home', disney: 'tabbar-disney', budget: 'tabbar-budget', credit: 'tabbar-credit' };
         Object.keys(tabMap).forEach(function (key) {
             var btn = document.getElementById(tabMap[key]);
             if (!btn) return;
