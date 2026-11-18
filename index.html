@@ -1203,6 +1203,70 @@
         .day-header { padding: 18px 18px 14px; }
         header h1 { font-size: 18px; }
     }
+
+    /* 手机竖排卡片（迪士尼 / 乐高专区）：不用左右滑，全部上下滑 */
+    .v-stack { margin-top: 4px; }
+    .v-plan-card {
+        background: #ffffff;
+        border: 1px solid rgba(0,0,0,0.06);
+        border-radius: 16px;
+        padding: 14px 14px 6px;
+        margin-top: 12px;
+    }
+    .v-plan-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        font-size: 15px;
+        font-weight: 800;
+        color: var(--text-primary);
+        padding-bottom: 10px;
+    }
+    .v-plan-tag {
+        flex: 0 0 auto;
+        font-size: 11px;
+        font-weight: 800;
+        color: #ffffff;
+        background: var(--d3);
+        border-radius: 999px;
+        padding: 3px 8px;
+    }
+    .v-plan-tag.orange { background: var(--d4); }
+    .v-row {
+        display: flex;
+        gap: 10px;
+        padding: 10px 0;
+        border-top: 1px solid rgba(0,0,0,0.05);
+        font-size: 13.5px;
+        line-height: 1.5;
+    }
+    .v-time {
+        flex: 0 0 88px;
+        font-weight: 800;
+        color: var(--d3);
+    }
+    .v-time.orange { color: var(--d4); }
+    .v-text { color: var(--text-primary); }
+    .v-why { display: block; margin-top: 2px; font-size: 12.5px; color: var(--text-secondary); }
+    .v-num {
+        flex: 0 0 26px;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--d3);
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1px;
+    }
+    .v-group { margin-top: 12px; }
+    .v-group-title { font-size: 14px; font-weight: 800; color: var(--text-primary); }
+    .v-group-items { font-size: 13.5px; line-height: 1.6; color: var(--text-primary); margin-top: 4px; }
+
 </style>
 </head>
 <body>
@@ -1687,10 +1751,10 @@
                     <div class="node-card">
                         <div class="node-header">
                             <span class="node-title">🧱 7. LEGOLAND California (乐高乐园)</span>
-                            <span class="node-time">10:00 - 15:00</span>
+                            <span class="node-time">10:00 - 16:00</span>
                         </div>
                         <p class="node-address">📍 1 Legoland Dr, Carlsbad, CA 92008</p>
-                        <p class="node-desc">乐高乐园的 Duplo Valley（得宝山谷）是专门为 2-4 岁幼童设计的，游乐项目极其温和有趣，完全不累。</p>
+                        <p class="node-desc">乐高乐园的 Duplo Valley（得宝山谷）是专门为 2-4 岁幼童设计的，游乐项目极其温和有趣，完全不累。票里还含隔壁 SEA LIFE 水族馆（15:00–16:00），水上乐园已关。</p>
                         <a href="https://maps.apple.com/?q=LEGOLAND+California" target="_blank" class="map-btn">在 Apple 地图中打开 ↗</a><br><a class="map-btn" onclick="switchView('lego')" style="cursor:pointer;">查看乐高乐园专区 →</a>
                     </div>
 
@@ -1701,7 +1765,7 @@
                     <div class="node-card">
                         <div class="node-header">
                             <span class="node-title">🏖️ 8. Oceanside Pier & 度假村海滩挖沙</span>
-                            <span class="node-time">15:30 以后</span>
+                            <span class="node-time">16:00 以后</span>
                         </div>
                         <p class="node-address">📍 301 N The Strand, Oceanside, CA 92054</p>
                         <p class="node-desc">回酒店休息，使用度假村 Beach Rambler 免费借用挖沙工具与遮阳伞，带宝宝在木栈桥下挖沙踩水；随后漫步 Oceanside Pier 看冲浪与太平洋落日。</p>
@@ -2146,46 +2210,67 @@
 
         <div class="budget-summary-card">
             <h3 style="font-size:16px; font-weight:800;">🗓️ 三套方案对照表</h3>
-            <div class="table-scroll-wrap">
-            <table class="budget-table">
-                <thead>
-                    <tr><th>时间</th><th>方案 A：慢游 + 快速通行 ⭐推荐</th><th>方案 B：均衡 + 快速通行</th><th>方案 C：刷满快速通行</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong>6:30</strong></td><td>从圣地亚哥出发</td><td>从圣地亚哥出发</td><td>从圣地亚哥出发</td></tr>
-                    <tr><td><strong>8:00 进园</strong></td><td>先约小飞侠 → 排加勒比海盗 → 丛林巡航</td><td>先约小飞侠 → 梦幻乐园黑暗骑乘：爱丽丝、匹诺曹、托德先生、白雪公主</td><td>先约小飞侠 → 排加勒比海盗，刷完马上约鬼屋</td></tr>
-                    <tr><td><strong>10:30–12:00</strong></td><td>梦幻乐园：小飞象、旋转木马、疯帽茶杯；小小世界（快速通行或排队）</td><td>小小世界（快速通行）→ 鬼屋圣诞版（快速通行）→ 坐铁路环园一圈</td><td>按预约连刷：鬼屋 → 米奇米妮铁路 → 巴斯光年</td></tr>
-                    <tr><td><strong>12:00–13:00</strong></td><td>手机点餐吃午饭</td><td>手机点餐吃午饭</td><td>手机点餐，边吃边约下一个</td></tr>
-                    <tr><td><strong>13:00–15:00</strong></td><td>Henry 午睡 / 园里休息</td><td>卡通城：米奇家合影、罗杰兔（快速通行）、小过山车（排队）</td><td>卡通城：小过山车（排队）+ 米奇家 + 补小飞象、旋转木马</td></tr>
-                    <tr><td><strong>15:15</strong></td><td>圣诞巡游（提前 20 分钟占位）</td><td>圣诞巡游</td><td>圣诞巡游</td></tr>
-                    <tr><td><strong>15:45–17:30</strong></td><td>卡通城：米奇家合影、罗杰兔（快速通行）、小过山车（排队）</td><td>加勒比海盗 → 丛林巡航 → 大街上逛逛拍照</td><td>刷剩余快速通行：罗杰兔、Autopia、小小世界</td></tr>
-                    <tr><td><strong>17:30–19:00</strong></td><td>吃晚饭；米奇米妮铁路（快速通行）</td><td>吃晚饭；巴斯光年（快速通行）、Autopia（快速通行）</td><td>吃晚饭；丛林巡航</td></tr>
-                    <tr><td><strong>19:00–21:00</strong></td><td>巴斯光年（快速通行）、Autopia（快速通行），自由活动</td><td>补漏项目 + 拍照</td><td>自由刷排队项目</td></tr>
-                    <tr><td><strong>21:00</strong></td><td>—</td><td>第一场 Fantasmic!</td><td>—</td></tr>
-                    <tr><td><strong>21:30</strong></td><td>主街看烟花，看完离园</td><td>看烟花</td><td>看烟花</td></tr>
-                    <tr><td><strong>22:00 后</strong></td><td>开车回 Oceanside 酒店</td><td>开车回 Oceanside 酒店</td><td>开车回 Oceanside 酒店</td></tr>
-                </tbody>
-            </table>
+                        <div class="v-stack">
+            <div class="v-plan-card">
+                <div class="v-plan-head"><span>方案 A · 慢游 + 快速通行</span><span class="v-plan-tag">⭐推荐</span></div>
+                <div class="v-row"><span class="v-time">6:30</span><span class="v-text">从圣地亚哥出发</span></div>
+                <div class="v-row"><span class="v-time">8:00 进园</span><span class="v-text">先约小飞侠 → 排加勒比海盗 → 丛林巡航</span></div>
+                <div class="v-row"><span class="v-time">10:30–12:00</span><span class="v-text">梦幻乐园：小飞象、旋转木马、疯帽茶杯；小小世界（快速通行或排队）</span></div>
+                <div class="v-row"><span class="v-time">12:00–13:00</span><span class="v-text">手机点餐吃午饭</span></div>
+                <div class="v-row"><span class="v-time">13:00–15:00</span><span class="v-text">Henry 午睡 / 园里休息</span></div>
+                <div class="v-row"><span class="v-time">15:15</span><span class="v-text">圣诞巡游（提前 20 分钟占位）</span></div>
+                <div class="v-row"><span class="v-time">15:45–17:30</span><span class="v-text">卡通城：米奇家合影、罗杰兔（快速通行）、小过山车（排队）</span></div>
+                <div class="v-row"><span class="v-time">17:30–19:00</span><span class="v-text">吃晚饭；米奇米妮铁路（快速通行）</span></div>
+                <div class="v-row"><span class="v-time">19:00–21:00</span><span class="v-text">巴斯光年（快速通行）、Autopia（快速通行），自由活动</span></div>
+                <div class="v-row"><span class="v-time">21:00</span><span class="v-text">—</span></div>
+                <div class="v-row"><span class="v-time">21:30</span><span class="v-text">主街看烟花，看完离园</span></div>
+                <div class="v-row"><span class="v-time">22:00 后</span><span class="v-text">开车回 Oceanside 酒店</span></div>
+            </div>
+            <div class="v-plan-card">
+                <div class="v-plan-head"><span>方案 B · 均衡 + 快速通行</span></div>
+                <div class="v-row"><span class="v-time">6:30</span><span class="v-text">从圣地亚哥出发</span></div>
+                <div class="v-row"><span class="v-time">8:00 进园</span><span class="v-text">先约小飞侠 → 梦幻乐园黑暗骑乘：爱丽丝、匹诺曹、托德先生、白雪公主</span></div>
+                <div class="v-row"><span class="v-time">10:30–12:00</span><span class="v-text">小小世界（快速通行）→ 鬼屋圣诞版（快速通行）→ 坐铁路环园一圈</span></div>
+                <div class="v-row"><span class="v-time">12:00–13:00</span><span class="v-text">手机点餐吃午饭</span></div>
+                <div class="v-row"><span class="v-time">13:00–15:00</span><span class="v-text">卡通城：米奇家合影、罗杰兔（快速通行）、小过山车（排队）</span></div>
+                <div class="v-row"><span class="v-time">15:15</span><span class="v-text">圣诞巡游</span></div>
+                <div class="v-row"><span class="v-time">15:45–17:30</span><span class="v-text">加勒比海盗 → 丛林巡航 → 大街上逛逛拍照</span></div>
+                <div class="v-row"><span class="v-time">17:30–19:00</span><span class="v-text">吃晚饭；巴斯光年（快速通行）、Autopia（快速通行）</span></div>
+                <div class="v-row"><span class="v-time">19:00–21:00</span><span class="v-text">补漏项目 + 拍照</span></div>
+                <div class="v-row"><span class="v-time">21:00</span><span class="v-text">第一场 Fantasmic!</span></div>
+                <div class="v-row"><span class="v-time">21:30</span><span class="v-text">看烟花</span></div>
+                <div class="v-row"><span class="v-time">22:00 后</span><span class="v-text">开车回 Oceanside 酒店</span></div>
+            </div>
+            <div class="v-plan-card">
+                <div class="v-plan-head"><span>方案 C · 刷满快速通行</span></div>
+                <div class="v-row"><span class="v-time">6:30</span><span class="v-text">从圣地亚哥出发</span></div>
+                <div class="v-row"><span class="v-time">8:00 进园</span><span class="v-text">先约小飞侠 → 排加勒比海盗，刷完马上约鬼屋</span></div>
+                <div class="v-row"><span class="v-time">10:30–12:00</span><span class="v-text">按预约连刷：鬼屋 → 米奇米妮铁路 → 巴斯光年</span></div>
+                <div class="v-row"><span class="v-time">12:00–13:00</span><span class="v-text">手机点餐，边吃边约下一个</span></div>
+                <div class="v-row"><span class="v-time">13:00–15:00</span><span class="v-text">卡通城：小过山车（排队）+ 米奇家 + 补小飞象、旋转木马</span></div>
+                <div class="v-row"><span class="v-time">15:15</span><span class="v-text">圣诞巡游</span></div>
+                <div class="v-row"><span class="v-time">15:45–17:30</span><span class="v-text">刷剩余快速通行：罗杰兔、Autopia、小小世界</span></div>
+                <div class="v-row"><span class="v-time">17:30–19:00</span><span class="v-text">吃晚饭；丛林巡航</span></div>
+                <div class="v-row"><span class="v-time">19:00–21:00</span><span class="v-text">自由刷排队项目</span></div>
+                <div class="v-row"><span class="v-time">21:00</span><span class="v-text">—</span></div>
+                <div class="v-row"><span class="v-time">21:30</span><span class="v-text">看烟花</span></div>
+                <div class="v-row"><span class="v-time">22:00 后</span><span class="v-text">开车回 Oceanside 酒店</span></div>
+            </div>
             </div>
         </div>
 
         <div class="budget-summary-card">
             <h3 style="font-size:16px; font-weight:800;">⚡ 快速通行预约顺序（Henry 能用的 7 个）</h3>
-            <div class="table-scroll-wrap">
-            <table class="budget-table">
-                <thead>
-                    <tr><th>顺序</th><th>项目</th><th>为什么这个顺序</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong>1</strong></td><td>小飞侠</td><td>最抢手，上午就约满</td></tr>
-                    <tr><td><strong>2</strong></td><td>鬼屋圣诞版</td><td>圣诞季最热门</td></tr>
-                    <tr><td><strong>3</strong></td><td>米奇米妮铁路</td><td>新热门，下午难约</td></tr>
-                    <tr><td><strong>4</strong></td><td>巴斯光年</td><td>全天都好约</td></tr>
-                    <tr><td><strong>5</strong></td><td>罗杰兔转转车</td><td>卡通城顺路刷</td></tr>
-                    <tr><td><strong>6</strong></td><td>Autopia 小汽车</td><td>下午约就行</td></tr>
-                    <tr><td><strong>7</strong></td><td>小小世界</td><td>全天好约，排队也不长，放最后</td></tr>
-                </tbody>
-            </table>
+                        <div class="v-stack">
+            <div class="v-plan-card">
+                <div class="v-row"><span class="v-num">1</span><span class="v-text"><strong>小飞侠</strong><span class="v-why">最抢手，上午就约满</span></span></div>
+                <div class="v-row"><span class="v-num">2</span><span class="v-text"><strong>鬼屋圣诞版</strong><span class="v-why">圣诞季最热门</span></span></div>
+                <div class="v-row"><span class="v-num">3</span><span class="v-text"><strong>米奇米妮铁路</strong><span class="v-why">新热门，下午难约</span></span></div>
+                <div class="v-row"><span class="v-num">4</span><span class="v-text"><strong>巴斯光年</strong><span class="v-why">全天都好约</span></span></div>
+                <div class="v-row"><span class="v-num">5</span><span class="v-text"><strong>罗杰兔转转车</strong><span class="v-why">卡通城顺路刷</span></span></div>
+                <div class="v-row"><span class="v-num">6</span><span class="v-text"><strong>Autopia 小汽车</strong><span class="v-why">下午约就行</span></span></div>
+                <div class="v-row"><span class="v-num">7</span><span class="v-text"><strong>小小世界</strong><span class="v-why">全天好约，排队也不长，放最后</span></span></div>
+            </div>
             </div>
             <ul class="note-list" style="margin-top:12px;">
                 <li>一次约一个，刷完马上约下一个；约到的时间超过 2 小时，2 小时一到就能再约一个。</li>
@@ -2209,7 +2294,7 @@
             <div style="margin-top:16px;">
                 <h2 style="font-size:22px; font-weight:800;">🧱 乐高乐园专区</h2>
                 <p style="font-size:13px; color:var(--text-secondary); margin-top:2px;">
-                    LEGOLAND California · Henry 95 厘米 · 开园 10:00–18:00 · 我们玩 10:00–15:00
+                    LEGOLAND + SEA LIFE · Henry 95 厘米 · 开园 10:00–18:00 · 乐园 10:00–15:00 + 水族馆 15:00–16:00
                 </p>
             </div>
         </div>
@@ -2220,47 +2305,36 @@
                 <li>开园 <strong>10:00–18:00</strong>；9 点到园进不去，门口要等 1 小时。按行程表 <strong>9:40 从 Seabird 出发</strong>，10 点正好进园。</li>
                 <li>从 Seabird 开车约 <strong>15 分钟</strong>（8.5 英里）；停车约 <strong>$40</strong>。</li>
                 <li><strong>Henry 95 厘米（约 37.4 英寸）</strong>：过了 36 英寸线，能玩园里大部分项目；40 英寸以上的龙过山车、技术过山车玩不了；开车学校要 6 岁以上，Henry 玩 3–5 岁的 Junior Driving School。</li>
-                <li>水上乐园 <strong>2026 季已关</strong>，不用带泳衣；隔壁 SEA LIFE 水族馆开着（需另加票）。</li>
+                <li>票里含 <strong>SEA LIFE 水族馆</strong>（Trip.com 订单 1616335308659076，×3 张，电子票直接入场；周日 11:30–18:30，约 1 小时，海底隧道 + 摸海星）；水上乐园 <strong>2026 季已关</strong>，不用带泳衣。</li>
                 <li>圣诞 Bricktacular 活动 <strong>11/21–11/29</strong> 正好赶上，含在门票里（乐高圣诞树、节日演出、乐高圣诞老人）。</li>
-                <li>门票已买。插队卡 Fastrack 不建议提前买（周日人流一般，排队约 20 分钟），真排不动再买 Bronze（约 $20，3 次）。</li>
+                <li>乐高 + 水族馆门票已买（×3）。插队卡 Fastrack 不建议提前买（周日人流一般，排队约 20 分钟），真排不动再买 Bronze（约 $20，3 次）。</li>
                 <li>可以自带吃的进园；推车必备。</li>
             </ul>
         </div>
 
         <div class="budget-summary-card">
-            <h3 style="font-size:16px; font-weight:800;">🗓️ 当天游玩路线（10:00–15:00）</h3>
-            <div class="table-scroll-wrap">
-            <table class="budget-table">
-                <thead>
-                    <tr><th>时间</th><th>去哪 / 玩什么</th><th>为什么这样排</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong>9:40</strong></td><td>从 Seabird 出发</td><td>开车 15 分钟，10 点正好到门口</td></tr>
-                    <tr><td><strong>10:00–11:00</strong></td><td>DUPLO Playtown（得宝山谷）：DUPLO Express 小火车、DUPLO Little Dino Trail、攀爬区</td><td>Henry 的主场，先玩最对口的，人少</td></tr>
-                    <tr><td><strong>11:00–12:00</strong></td><td>Fun Town：Junior Driving School（3–5 岁专属，Henry 4 岁正好）、LEGOLAND Express</td><td>开车是 Henry 这个年龄的招牌项目</td></tr>
-                    <tr><td><strong>12:00–13:00</strong></td><td>午饭（自带或园里吃）+ Miniland USA 拍照</td><td>乐高微缩美国，不用排队，边吃边看</td></tr>
-                    <tr><td><strong>13:00–14:00</strong></td><td>Land of Adventure：Coastersaurus（Henry 第一个过山车）、Lost Kingdom Adventure</td><td>午饭后体力最好，玩最刺激的两个</td></tr>
-                    <tr><td><strong>14:00–15:00</strong></td><td>LEGO Kingdoms：Royal Joust（骑乐高马）；顺路 LEGO Galaxy 看 Galacticoaster（2026 新园区）</td><td>骑马缓一缓，收尾看新园区</td></tr>
-                    <tr><td><strong>15:00</strong></td><td>离园，回 Oceanside 海滩挖沙、看日落</td><td>和原行程一样，15:30 以后在海边</td></tr>
-                </tbody>
-            </table>
+            <h3 style="font-size:16px; font-weight:800;">🗓️ 当天游玩路线（10:00–16:00）</h3>
+                        <div class="v-stack">
+            <div class="v-plan-card">
+                <div class="v-row"><span class="v-time orange">9:40</span><span class="v-text">从 Seabird 出发<span class="v-why">开车 15 分钟，10 点正好到门口</span></span></div>
+                <div class="v-row"><span class="v-time orange">10:00–11:00</span><span class="v-text">DUPLO Playtown（得宝山谷）：DUPLO Express 小火车、DUPLO Little Dino Trail、攀爬区<span class="v-why">Henry 的主场，先玩最对口的，人少</span></span></div>
+                <div class="v-row"><span class="v-time orange">11:00–12:00</span><span class="v-text">Fun Town：Junior Driving School（3–5 岁专属，Henry 4 岁正好）、LEGOLAND Express<span class="v-why">开车是 Henry 这个年龄的招牌项目</span></span></div>
+                <div class="v-row"><span class="v-time orange">12:00–13:00</span><span class="v-text">午饭（自带或园里吃）+ Miniland USA 拍照<span class="v-why">乐高微缩美国，不用排队，边吃边看</span></span></div>
+                <div class="v-row"><span class="v-time orange">13:00–14:00</span><span class="v-text">Land of Adventure：Coastersaurus、Lost Kingdom Adventure<span class="v-why">午饭后体力最好，玩最刺激的两个</span></span></div>
+                <div class="v-row"><span class="v-time orange">14:00–15:00</span><span class="v-text">LEGO Kingdoms：Royal Joust（骑乐高马）；顺路 LEGO Galaxy 看 Galacticoaster<span class="v-why">骑马缓一缓，收尾看新园区</span></span></div>
+                <div class="v-row"><span class="v-time orange">15:00–16:00</span><span class="v-text">SEA LIFE 水族馆（票里含的）<span class="v-why">室内约 1 小时，海底隧道 + 摸海星，周日开到 18:30</span></span></div>
+                <div class="v-row"><span class="v-time orange">16:00 之后</span><span class="v-text">回 Oceanside 海滩挖沙、看日落<span class="v-why">日落约 4:45，到海边还能玩 45 分钟左右</span></span></div>
+            </div>
             </div>
         </div>
 
         <div class="budget-summary-card">
             <h3 style="font-size:16px; font-weight:800;">📏 Henry 95 厘米能玩什么</h3>
-            <div class="table-scroll-wrap">
-            <table class="budget-table">
-                <thead>
-                    <tr><th>要求</th><th>项目</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong>不限身高</strong></td><td>DUPLO Playtown、DUPLO Little Dino Trail、LEGOLAND Express 小火车、Junior Driving School（3–5 岁）、Cargo Ace（3–5 岁）</td></tr>
-                    <tr><td><strong>30–34 英寸</strong></td><td>Lost Kingdom Adventure（30 英寸，家长陪同）、Captain Cranky’s Challenge（34 英寸）</td></tr>
-                    <tr><td><strong>36 英寸（Henry 刚过线）</strong></td><td>Coastersaurus、Beetle Bounce、Dune Raiders、Pirate Reef、Royal Joust（4–12 岁）、Galacticoaster（家长陪同，2026 新过山车）</td></tr>
-                    <tr><td><strong>玩不了</strong></td><td>The Dragon（40 英寸）、LEGO Technic Coaster（42 英寸）、BIONICLE Blaster（42 英寸）、G-Force（40 英寸）、Driving School（6–13 岁）</td></tr>
-                </tbody>
-            </table>
+                        <div class="v-stack">
+                <div class="v-group"><div class="v-group-title">不限身高</div><div class="v-group-items">DUPLO Playtown、DUPLO Little Dino Trail、LEGOLAND Express 小火车、Junior Driving School（3–5 岁）、Cargo Ace（3–5 岁）</div></div>
+                <div class="v-group"><div class="v-group-title">30–34 英寸</div><div class="v-group-items">Lost Kingdom Adventure（30 英寸，家长陪同）、Captain Cranky’s Challenge（34 英寸）</div></div>
+                <div class="v-group"><div class="v-group-title">36 英寸（Henry 刚过线）</div><div class="v-group-items">Coastersaurus、Beetle Bounce、Dune Raiders、Pirate Reef、Royal Joust（4–12 岁）、Galacticoaster（家长陪同，2026 新过山车）</div></div>
+                <div class="v-group"><div class="v-group-title">玩不了</div><div class="v-group-items">The Dragon（40 英寸）、LEGO Technic Coaster（42 英寸）、BIONICLE Blaster（42 英寸）、G-Force（40 英寸）、Driving School（6–13 岁）</div></div>
             </div>
             <ul class="note-list" style="margin-top:12px;">
                 <li>身高是穿鞋量的，和迪士尼一样。</li>
