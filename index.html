@@ -949,6 +949,7 @@
     }
     .tag-paid { background: rgba(52, 199, 89, 0.12); color: #34c759; }
     .tag-est { background: rgba(255, 149, 0, 0.12); color: #ff9500; }
+    .tag-actual { background: rgba(0, 122, 255, 0.12); color: #007aff; }
     .note-list { margin-top: 4px; padding-left: 16px; color: var(--text-secondary); font-size: 12px; }
     .note-list li { margin-bottom: 3px; }
 
@@ -1995,7 +1996,7 @@
                     ← 返回行程总览
                 </button>
                 <div style="font-size:14px; font-weight:800; color:var(--text-secondary);">
-                    预估总花费: <span style="font-size:20px; color:#34c759;">$3,757.88</span>
+                    总花费（实际+预估）: <span style="font-size:20px; color:#34c759;">$4,415.41</span>
                 </div>
             </div>
             <div style="margin-top:16px;">
@@ -2079,39 +2080,40 @@
                     <tr>
                         <td><strong>🚗 租车与交通</strong><br><span style="font-size:11px; color:var(--text-secondary);">SAN 机场取还</span></td>
                         <td>
-                            三日租车 + 网约车 (Uber/Lyft)
+                            Turo 租车 + 停车 + 轻轨（实际）
                             <ul class="note-list">
-                                <li>D1-D2: 市区 Uber/Lyft 打车</li>
-                                <li>D3-D5: SAN 机场租车 (SUV/中型车)</li>
-                                <li>包含油费与停车费预估</li>
+                                <li>Turo 租车 2023 Tesla Model Y：$265.04（已付）</li>
+                                <li>Turo 充电费：$25；Seabird 停车 $55/晚 × 2 晚 = $110</li>
+                                <li>乐高乐园停车 $40；轻轨 PRONTO $3</li>
                             </ul>
                         </td>
-                        <td><span class="status-tag tag-est">预估花费</span></td>
+                        <td><span class="status-tag tag-actual">实际花费</span></td>
                         <td>
                             <ul class="note-list">
                                 <li>根据加州法律，<strong>3 岁儿童必须使用安全座椅 (Car Seat)</strong>，租车时需勾选或自带。</li>
-                                <li>迪士尼停车场（约 $35/天）及酒店代客泊车费用需留足预算。</li>
+                                <li>Seabird 停车实际 $110（$55/晚 × 2 晚）；迪士尼当天未产生停车费。</li>
                             </ul>
                         </td>
-                        <td class="price-col">$280.00</td>
+                        <td class="price-col">$443.04</td>
                     </tr>
                     <tr>
                         <td><strong>🏰 迪士尼乐园</strong><br><span style="font-size:11px; color:var(--text-secondary);">Disneyland Park</span></td>
                         <td>
-                            Disneyland Park 单日门票
+                            Disneyland Park 单日门票 + 园内餐饮
                             <ul class="note-list">
                                 <li>2 张成人票 + 1 张儿童票 (3岁)</li>
-                                <li>包含全天常规设施与灯光秀</li>
+                                <li>门票预估 $729；园内餐饮实际 $193.49</li>
+                                <li>餐饮：Tiana's $79.89、Bengal $92.77、售货 $9.75、水果摊 $6.24 + $4.84</li>
                             </ul>
                         </td>
-                        <td><span class="status-tag tag-est">预估花费</span></td>
+                        <td><span class="status-tag tag-actual">部分实际</span></td>
                         <td>
                             <ul class="note-list">
                                 <li>买票后<strong>必须提前在迪士尼 App 完成 Park Reservation (园区预约)</strong>。</li>
                                 <li>极度推荐买票后下载 Disneyland App，使用 Rider Switch (家长轮换) 或购买 Lightning Lane 省去排队时间。</li>
                             </ul>
                         </td>
-                        <td class="price-col">$729.00</td>
+                        <td class="price-col">$922.49</td>
                     </tr>
                     <tr>
                         <td><strong>🧱 乐高乐园</strong><br><span style="font-size:11px; color:var(--text-secondary);">LEGOLAND</span></td>
@@ -2136,35 +2138,36 @@
                         <td>
                             San Diego Zoo 门票 (含观光巴士)
                             <ul class="note-list">
-                                <li>2 张成人票 (3岁以下免费或需儿童票)</li>
-                                <li>含 35分钟 Guided Bus Tour & Skyfari 缆车</li>
+                                <li>本次没去动物园</li>
+                                <li>Day 5 去了 Balboa Park 和 Old Town</li>
                             </ul>
                         </td>
-                        <td><span class="status-tag tag-est">预估花费</span></td>
+                        <td><span class="status-tag tag-actual">没去</span></td>
                         <td>
                             <ul class="note-list">
-                                <li>园区较大丘陵起伏，入园后<strong>优先乘坐 Guided Bus Tour</strong>，省力游览大半个园区后再针对性看大熊猫。</li>
+                                <li>本次没去，$140 预估未产生。</li>
                             </ul>
                         </td>
-                        <td class="price-col">$140.00</td>
+                        <td class="price-col">$0.00</td>
                     </tr>
                     <tr>
                         <td><strong>🚢 航母与老灯塔</strong><br><span style="font-size:11px; color:var(--text-secondary);">Midway & Cabrillo</span></td>
                         <td>
-                            USS Midway 门票 + Cabrillo 国家纪念碑
+                            USS Midway 门票 + Flagship 海港游船（实际）
                             <ul class="note-list">
-                                <li>USS Midway 成人门票 x 2</li>
-                                <li>Point Loma Cabrillo 按车收费门票</li>
+                                <li>USS Midway 2 张票 $72（订单 AON4076175）</li>
+                                <li>Flagship 游船 2 张成人票 $84 + 照片 $25</li>
+                                <li>Cabrillo 老灯塔没去</li>
                             </ul>
                         </td>
-                        <td><span class="status-tag tag-est">预估花费</span></td>
+                        <td><span class="status-tag tag-actual">实际花费</span></td>
                         <td>
                             <ul class="note-list">
                                 <li>USS Midway 飞行甲板风大，请随身为宝宝带一件薄外套。</li>
-                                <li>若手头有美国国家公园年卡 (America the Beautiful Pass)，在老灯塔 (Cabrillo) 可直接免车费入场。</li>
+                                <li>本次只去了 Midway 和 Flagship，没去 Cabrillo。</li>
                             </ul>
                         </td>
-                        <td class="price-col">$60.00</td>
+                        <td class="price-col">$181.00</td>
                     </tr>
                 </tbody>
             </table>
